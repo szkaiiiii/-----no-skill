@@ -2,6 +2,7 @@
   "name": "ms-report-szk-platform",
   "private": true,
   "scripts": {
+    "build": "node build-pages.js",
     "start": "node server.js",
     "check:server": "node --check server.js",
     "check:cloudflare": "node --check \"functions/api/[[path]].js\" && node --check \"functions/storage/[[path]].js\""

@@ -9,8 +9,8 @@
 Cloudflare Pages 建議設定：
 
 - Framework preset: None
-- Build command: 留空
-- Build output directory: `.`
+- Build command: `npm run build`
+- Build output directory: `dist`
 
 平台 API 使用 Pages Functions，需在 Cloudflare Pages 專案的 Settings > Functions > Bindings 建立：
 
