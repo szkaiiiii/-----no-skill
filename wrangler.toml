@@ -1,3 +1,7 @@
 name = "ms-report-szk-platform"
+main = "src/worker.js"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-06-16"
+
+[assets]
+directory = "./dist"
