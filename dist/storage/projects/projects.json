@@ -1,0 +1,31 @@
+{
+  "projects": [
+    {
+      "id": "A工地",
+      "name": "A工地",
+      "engineeringName": "A工地工程",
+      "type": "建築工程",
+      "contractor": "尚未設定",
+      "createdDate": "2026-06-14",
+      "description": "系統預設專案。"
+    },
+    {
+      "id": "B工地",
+      "name": "B工地",
+      "engineeringName": "B工地工程",
+      "type": "營造工程",
+      "contractor": "尚未設定",
+      "createdDate": "2026-06-14",
+      "description": "可用於分場域管理。"
+    },
+    {
+      "id": "C工地",
+      "name": "C工地",
+      "engineeringName": "C工地工程",
+      "type": "營造工程",
+      "contractor": "尚未設定",
+      "createdDate": "2026-06-14",
+      "description": "可用於分場域管理。"
+    }
+  ]
+}

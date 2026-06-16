@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孫稚凱 | 個人網站</title>
+    <meta name="description" content="孫稚凱的個人作品集與履歷">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Text gradient */
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Subtle animated background */
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            top: -200px;
+            left: -200px;
+            z-index: -1;
+            filter: blur(60px);
+            animation: pulse 8s infinite alternate;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+            z-index: -1;
+            filter: blur(60px);
+            animation: pulse 10s infinite alternate-reverse;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.2) translate(50px, 50px); }
+        }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        .nav-link {
+            position: relative;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fff;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="relative antialiased selection:bg-blue-500/30">
+    <div class="bg-glow fixed"></div>
+    <div class="bg-glow-2 fixed"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center glass rounded-b-2xl md:rounded-full md:mt-4 md:mx-6 border-t-0 md:border-t">
+            <a href="#" class="text-xl font-bold tracking-wider text-white">SZK<span class="text-blue-400">.</span></a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#about" class="nav-link">關於我</a>
+                <a href="#experience" class="nav-link">實習經驗</a>
+                <a href="#skills" class="nav-link">技能專長</a>
+                <a href="#contact" class="nav-link">聯絡資訊</a>
+            </div>
+
+            <a href="#contact" class="hidden md:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white transition-all bg-white/10 border border-white/20 rounded-full hover:bg-white/20 hover:scale-105 active:scale-95">
+                聯絡我
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-300 hover:text-white" id="mobile-menu-btn">
+                <i data-feather="menu"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden glass absolute top-full left-0 w-full flex-col hidden items-center py-6 space-y-4 border-t border-white/10" id="mobile-menu">
+            <a href="#about" class="nav-link text-lg">關於我</a>
+            <a href="#experience" class="nav-link text-lg">實習經驗</a>
+            <a href="#skills" class="nav-link text-lg">技能專長</a>
+            <a href="#contact" class="nav-link text-lg">聯絡資訊</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 pt-32 pb-24">
+        
+        <!-- Hero Section -->
+        <section class="min-h-[80vh] flex flex-col justify-center items-start reveal relative z-10" id="home">
+            <div class="inline-flex items-center px-4 py-2 rounded-full glass border-blue-500/30 text-blue-400 text-sm font-medium mb-8">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse mr-2 shadow-[0_0_8px_#3b82f6]"></span>
+                Available for Work
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-tight">
+                你好，我是 <br class="md:hidden"><span class="text-gradient">孫稚凱</span>
+            </h1>
+            <h2 class="text-2xl md:text-4xl text-gray-400 font-medium mb-8">
+                營建工程系 / 現場工程師
+            </h2>
+            <p class="text-lg text-gray-400 max-w-2xl mb-12 leading-relaxed">
+                具備工程圖面判讀與工地現場實務基礎。熟悉 AutoCAD 與 Office 文書工具，具備良好的團隊合作能力與責任感，致力於現場工程管理與營建工程領域發展。
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#experience" class="px-8 py-4 rounded-full bg-white text-black font-semibold hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                    查看經歷
+                </a>
+                <a href="#contact" class="px-8 py-4 rounded-full glass font-semibold hover:bg-white/10 transition-colors duration-300 flex items-center gap-2">
+                    聯絡我 <i data-feather="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- About & Education Section -->
+        <section class="py-24 reveal" id="about">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-transparent"></div>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">關於我 & 學歷</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- About Card -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden group">
+                    <div class="absolute -top-10 -right-10 p-6 opacity-10 group-hover:opacity-20 transition-opacity duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <i data-feather="user" class="w-48 h-48 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                        <i data-feather="info" class="w-6 h-6 text-blue-400"></i> 自我介紹
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed mb-8 relative z-10 text-lg">
+                        目前就讀於國立雲林科技大學營建工程系。曾參與工地實習，了解施工流程、工程管理與現場安全規範。
+                    </p>
+                    <ul class="space-y-4 text-gray-300 relative z-10">
+                        <li class="flex items-center gap-4 glass p-3 rounded-2xl"><i data-feather="map-pin" class="w-5 h-5 text-blue-400"></i> 雲林縣斗六市</li>
+                        <li class="flex items-center gap-4 glass p-3 rounded-2xl"><i data-feather="phone" class="w-5 h-5 text-blue-400"></i> 0912-345-678</li>
+                        <li class="flex items-center gap-4 glass p-3 rounded-2xl"><i data-feather="mail" class="w-5 h-5 text-blue-400"></i> boyu.chen@email.com</li>
+                    </ul>
+                </div>
+
+                <!-- Education Card -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden group">
+                     <div class="absolute -top-10 -right-10 p-6 opacity-10 group-hover:opacity-20 transition-opacity duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <i data-feather="book-open" class="w-48 h-48 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white flex items-center gap-2">
+                        <i data-feather="award" class="w-6 h-6 text-purple-400"></i> 學歷
+                    </h3>
+                    <div class="mb-8 relative z-10 glass p-5 rounded-2xl border-l-4 border-l-purple-500">
+                        <h4 class="text-xl font-bold text-white mb-1">國立雲林科技大學</h4>
+                        <p class="text-purple-300 font-medium">營建工程系 ｜ 2021 – 2025 (預計畢業)</p>
+                    </div>
+                    <h5 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 relative z-10">主要修習課程</h5>
+                    <div class="flex flex-wrap gap-3 relative z-10">
+                        <span class="px-4 py-2 rounded-full glass text-sm text-gray-300 hover:text-white hover:border-purple-400 transition-colors">結構學</span>
+                        <span class="px-4 py-2 rounded-full glass text-sm text-gray-300 hover:text-white hover:border-purple-400 transition-colors">土木施工法</span>
+                        <span class="px-4 py-2 rounded-full glass text-sm text-gray-300 hover:text-white hover:border-purple-400 transition-colors">工程材料</span>
+                        <span class="px-4 py-2 rounded-full glass text-sm text-gray-300 hover:text-white hover:border-purple-400 transition-colors">測量學</span>
+                        <span class="px-4 py-2 rounded-full glass text-sm text-gray-300 hover:text-white hover:border-purple-400 transition-colors">鋼筋混凝土設計</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="py-24 reveal" id="experience">
+             <div class="flex items-center gap-4 mb-16">
+                <div class="w-12 h-1 bg-gradient-to-r from-purple-500 to-transparent"></div>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">實習經驗</h2>
+            </div>
+
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 h-full w-px bg-gradient-to-b from-blue-500 via-purple-500 to-transparent opacity-30"></div>
+
+                <!-- Experience Item -->
+                <div class="relative flex flex-col md:flex-row justify-between items-center w-full">
+                    <!-- Left empty for alignment on desktop -->
+                    <div class="hidden md:block w-[45%]"></div>
+                    
+                    <!-- Timeline Dot -->
+                    <div class="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-black border-4 border-blue-500 rounded-full shadow-[0_0_15px_#3b82f6] z-10"></div>
+                    
+                    <!-- Content Card -->
+                    <div class="w-full pl-12 md:pl-0 md:w-[45%]">
+                        <div class="glass-card rounded-3xl p-8 relative group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+                            
+                            <div class="relative z-10">
+                                <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold tracking-wider mb-4 border border-blue-500/20">2024/07 – 2024/08</span>
+                                <h3 class="text-3xl font-bold mb-2">工地實習生</h3>
+                                <h4 class="text-xl text-purple-400 mb-8 font-medium">台灣世曦股份有限公司</h4>
+                                
+                                <div class="space-y-6">
+                                    <div class="glass p-5 rounded-2xl">
+                                        <h5 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                            <i data-feather="check-circle" class="w-4 h-4 text-blue-400"></i> 工作內容
+                                        </h5>
+                                        <ul class="text-gray-300 space-y-2 text-sm leading-relaxed">
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div> 協助工程進度紀錄與施工日報整理</li>
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div> 使用 AutoCAD 修改施工圖面</li>
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div> 協助現場施工管理與安全巡查</li>
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div> 整理材料進出與施工資料</li>
+                                        </ul>
+                                    </div>
+                                    <div class="glass p-5 rounded-2xl">
+                                        <h5 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                            <i data-feather="star" class="w-4 h-4 text-purple-400"></i> 實習收穫
+                                        </h5>
+                                        <ul class="text-gray-300 space-y-2 text-sm leading-relaxed">
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0"></div> 熟悉工地現場施工流程</li>
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0"></div> 增進圖面判讀能力</li>
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0"></div> 學習工程團隊協作與溝通能力</li>
+                                            <li class="flex items-start gap-2"><div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0"></div> 了解工程安全與品質管理的重要性</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image representation -->
+            <div class="mt-20 rounded-[2rem] overflow-hidden glass border border-white/10 relative h-[500px] group reveal">
+                <img src="./resource/工地.png" alt="工地現場" class="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-all duration-1000 group-hover:scale-105 transform">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent"></div>
+                
+                <div class="absolute inset-0 bg-blue-500/10 mix-blend-overlay"></div>
+                
+                <div class="absolute bottom-10 left-10 right-10 max-w-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full glass text-white text-xs font-bold tracking-wider mb-4 border border-white/20">
+                        <i data-feather="camera" class="w-3 h-3 mr-2"></i> 現場紀實
+                    </div>
+                    <h3 class="text-4xl font-bold text-white mb-4">現場實務經驗</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">結合學術理論與工地現場實際操作，建立扎實的工程基礎。從圖面到實體，掌握每一個環節的細節與挑戰。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Projects -->
+        <section class="py-24 reveal" id="skills">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-transparent"></div>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">技能與校園經歷</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Skill 1 -->
+                <div class="glass-card rounded-3xl p-8">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 flex items-center justify-center mb-8">
+                        <i data-feather="pen-tool" class="text-blue-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">工程軟體</h3>
+                    <div class="space-y-4">
+                        <div class="glass p-4 rounded-2xl hover:border-blue-500/50 transition-colors">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-white font-semibold">AutoCAD</span>
+                                <span class="text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded">熟練</span>
+                            </div>
+                            <p class="text-sm text-gray-400">熟悉工程圖面繪製與修改</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="glass-card rounded-3xl p-8">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center mb-8">
+                        <i data-feather="file-text" class="text-purple-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">文書能力</h3>
+                    <div class="space-y-4">
+                        <div class="glass p-4 rounded-2xl hover:border-purple-500/50 transition-colors">
+                            <h4 class="text-white font-semibold mb-1">Word</h4>
+                            <p class="text-sm text-gray-400">文件排版與工程報告整理</p>
+                        </div>
+                        <div class="glass p-4 rounded-2xl hover:border-purple-500/50 transition-colors">
+                            <h4 class="text-white font-semibold mb-1">Excel</h4>
+                            <p class="text-sm text-gray-400">資料整理、基礎函數應用</p>
+                        </div>
+                        <div class="glass p-4 rounded-2xl hover:border-purple-500/50 transition-colors">
+                            <h4 class="text-white font-semibold mb-1">PowerPoint</h4>
+                            <p class="text-sm text-gray-400">簡報設計與報告製作</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project -->
+                <div class="glass-card rounded-3xl p-8 border-blue-500/30 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center mb-8 shadow-lg shadow-blue-500/30">
+                            <i data-feather="award" class="text-white w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-white">校園經歷</h3>
+                        <p class="text-sm text-blue-400 mb-6 font-medium tracking-wide">營建工程系專題製作</p>
+                        
+                        <div class="glass p-5 rounded-2xl bg-black/40">
+                            <h4 class="text-lg font-bold text-white mb-4">「校園排水改善規劃研究」</h4>
+                            <ul class="text-gray-400 space-y-3 text-sm">
+                                <li class="flex items-start gap-2"><i data-feather="chevron-right" class="w-4 h-4 text-purple-400 mt-0.5"></i> 協助資料蒐集與圖面繪製</li>
+                                <li class="flex items-start gap-2"><i data-feather="chevron-right" class="w-4 h-4 text-purple-400 mt-0.5"></i> 進行現地測量與數據整理</li>
+                                <li class="flex items-start gap-2"><i data-feather="chevron-right" class="w-4 h-4 text-purple-400 mt-0.5"></i> 使用 PowerPoint 製作成果簡報</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="py-24 reveal" id="contact">
+            <div class="glass-card rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+                <!-- Background decorative elements -->
+                <div class="absolute top-0 left-0 w-full h-full">
+                    <div class="absolute top-[-10%] left-[-10%] w-1/2 h-1/2 bg-blue-500/20 blur-[100px] rounded-full"></div>
+                    <div class="absolute bottom-[-10%] right-[-10%] w-1/2 h-1/2 bg-purple-500/20 blur-[100px] rounded-full"></div>
+                </div>
+                
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 relative z-10 text-white">準備好迎接新的工程挑戰</h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-12 relative z-10 leading-relaxed">
+                    認真負責，具良好學習態度。對營建工程與現場管理具高度興趣，願意持續學習工程相關技能與實務經驗。期待能為您的團隊帶來貢獻。
+                </p>
+
+                <div class="mb-8 relative z-10">
+                    <h4 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">應徵方向</h4>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <span class="px-5 py-2.5 rounded-full glass border border-white/10 text-sm font-medium text-gray-300 hover:text-white hover:border-blue-500/50 transition-colors">現場工程師</span>
+                        <span class="px-5 py-2.5 rounded-full glass border border-white/10 text-sm font-medium text-gray-300 hover:text-white hover:border-blue-500/50 transition-colors">營造工程師</span>
+                        <span class="px-5 py-2.5 rounded-full glass border border-white/10 text-sm font-medium text-gray-300 hover:text-white hover:border-blue-500/50 transition-colors">土木工程助理工程師</span>
+                        <span class="px-5 py-2.5 rounded-full glass border border-white/10 text-sm font-medium text-gray-300 hover:text-white hover:border-blue-500/50 transition-colors">品管工程相關職務</span>
+                    </div>
+                </div>
+
+                <a href="mailto:boyu.chen@email.com" class="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,255,255,0.3)] relative z-10 group">
+                    <i data-feather="mail" class="group-hover:animate-bounce"></i> 寄信聯絡我
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-white/5 py-12 text-center relative z-10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-500 text-sm font-medium">&copy; 2026 孫稚凱 Sun Zhi-Kai. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
+                    <i data-feather="linkedin" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
+                    <i data-feather="github" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if(!menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex');
+                }
+            });
+        });
+
+        // Navbar blur on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('bg-[#050505]/80');
+                navbar.classList.add('backdrop-blur-xl');
+            } else {
+                navbar.classList.remove('py-2');
+                navbar.classList.add('py-4');
+                navbar.classList.remove('bg-[#050505]/80');
+                navbar.classList.remove('backdrop-blur-xl');
+            }
+        });
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
+</body>
+</html>

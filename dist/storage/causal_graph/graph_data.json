@@ -1,0 +1,1868 @@
+{
+  "nodes": [
+    {
+      "id": "墜落事故",
+      "label": "墜落事故",
+      "aliases": [
+        "墜落事故",
+        "可能事件人員因失足碰撞或圍欄失效而墜落",
+        "墜落事故人員從高處墜落至下方可能撞擊暴露鋼筋導致嚴重傷害或死亡",
+        "墜落事故(高處墜落)",
+        "墜落事故從高處墜落至下方地面或施工架外側",
+        "墜落事故(勞工從高處墜落)"
+      ],
+      "frequency": 14,
+      "weight": 14,
+      "related_cases": [
+        "case_0001",
+        "case_0002",
+        "case_0003",
+        "case_0004",
+        "case_0005",
+        "case_0006",
+        "case_0007",
+        "case_0008",
+        "case_0009",
+        "case_0010",
+        "case_0011",
+        "case_0012",
+        "case_0013",
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "event",
+      "category": "事故事件"
+    },
+    {
+      "id": "護欄缺失",
+      "label": "護欄缺失",
+      "aliases": [
+        "樓板開口未設置堅固護欄或蓋板",
+        "未設置合格護欄",
+        "間接因子未依規定設置符合標準的墜落防護設施（護欄或護蓋）",
+        "屋頂開口未設置護欄或護蓋",
+        "間接因子(未規劃安全通道未設置護欄/護蓋)",
+        "未設置集體防墜設施(護欄安全網安全通道/踏板)",
+        "施工架平台邊緣護欄不足",
+        "未設置適當防墜設施(護欄/護蓋)",
+        "施工架平台邊緣防護不足",
+        "護欄缺失"
+      ],
+      "frequency": 10,
+      "weight": 10,
+      "related_cases": [
+        "case_0002",
+        "case_0003",
+        "case_0004",
+        "case_0007",
+        "case_0008",
+        "case_0010",
+        "case_0011",
+        "case_0012",
+        "case_0013",
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "未使用安全帶",
+      "label": "未使用安全帶",
+      "aliases": [
+        "未確實掛妥安全帶",
+        "未正確掛置安全帶",
+        "安全帶錨點或安全母索未被使用",
+        "安全帶未正確掛置於錨點或安全母索(直接因子)",
+        "未正確使用安全帶",
+        "直接因子作業人員未繫掛安全帶施工架平台邊緣護欄不足",
+        "未使用安全帶"
+      ],
+      "frequency": 5,
+      "weight": 5,
+      "related_cases": [
+        "case_0003",
+        "case_0005",
+        "case_0006",
+        "case_0010",
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "教育訓練不足",
+      "label": "教育訓練不足",
+      "aliases": [
+        "安全教育訓練不足或未落實",
+        "安全教育訓練不足或未落實(潛在因子)",
+        "安全教育訓練不足",
+        "未對勞工施以必要安全衛生教育訓練",
+        "間接因子現場監督管理不足安全教育訓練不足施工架組裝未完全符合規範",
+        "教育訓練不足"
+      ],
+      "frequency": 5,
+      "weight": 5,
+      "related_cases": [
+        "case_0005",
+        "case_0006",
+        "case_0008",
+        "case_0010",
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "潛在因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "屋頂材料易踏穿",
+      "label": "屋頂材料易踏穿",
+      "aliases": [
+        "屋頂材料易踏穿",
+        "屋頂材質易踏穿"
+      ],
+      "frequency": 3,
+      "weight": 3,
+      "related_cases": [
+        "case_0007",
+        "case_0008",
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "未訂定墜落災害防止計畫",
+      "label": "未訂定墜落災害防止計畫",
+      "aliases": [
+        "未訂定墜落災害防止計畫"
+      ],
+      "frequency": 2,
+      "weight": 2,
+      "related_cases": [
+        "case_0007",
+        "case_0008"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "潛在因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "危害辨識不足",
+      "label": "危害辨識不足",
+      "aliases": [
+        "潛在因子安全管理措施不足未落實危害辨識與風險評估",
+        "潛在因子(安全管理制度不足未落實危害辨識與風險評估)"
+      ],
+      "frequency": 2,
+      "weight": 2,
+      "related_cases": [
+        "case_0004",
+        "case_0011"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "缺乏完善的職業安全衛生管理計畫",
+      "label": "缺乏完善的職業安全衛生管理計畫",
+      "aliases": [
+        "缺乏完善的職業安全衛生管理計畫",
+        "缺乏完善的職業安全衛生管理系統與計畫"
+      ],
+      "frequency": 2,
+      "weight": 2,
+      "related_cases": [
+        "case_0008",
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "勞工失足或重心不穩(可能事件)",
+      "label": "勞工失足或重心不穩(可能事件)",
+      "aliases": [
+        "勞工失足或重心不穩(可能事件)",
+        "可能事件(勞工失足或重心不穩)"
+      ],
+      "frequency": 2,
+      "weight": 2,
+      "related_cases": [
+        "case_0005",
+        "case_0012"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "管理措施不足",
+      "label": "管理措施不足",
+      "aliases": [
+        "管理措施不足",
+        "安全管理措施不足"
+      ],
+      "frequency": 2,
+      "weight": 2,
+      "related_cases": [
+        "case_0002",
+        "case_0004"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": "管理因素"
+    },
+    {
+      "id": "管理監督不足",
+      "label": "管理監督不足",
+      "aliases": [
+        "管理監督不足"
+      ],
+      "frequency": 2,
+      "weight": 2,
+      "related_cases": [
+        "case_0001",
+        "case_0006"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "潛在因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "人員靠近未妥善防護之開口",
+      "label": "人員靠近未妥善防護之開口",
+      "aliases": [
+        "人員靠近未妥善防護之開口"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "人員靠近危險區域",
+      "label": "人員靠近危險區域",
+      "aliases": [
+        "人員靠近危險區域"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "人員靠近或作業",
+      "label": "人員靠近或作業",
+      "aliases": [
+        "人員靠近或作業"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "可能事件(勞工失足或踏穿屋頂)",
+      "label": "可能事件(勞工失足或踏穿屋頂)",
+      "aliases": [
+        "可能事件(勞工失足或踏穿屋頂)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "可能事件(勞工靠近邊緣作業或因絆倒失衡)",
+      "label": "可能事件(勞工靠近邊緣作業或因絆倒失衡)",
+      "aliases": [
+        "可能事件(勞工靠近邊緣作業或因絆倒失衡)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "可能事件作業人員失足重心不穩或靠近邊緣",
+      "label": "可能事件作業人員失足重心不穩或靠近邊緣",
+      "aliases": [
+        "可能事件作業人員失足重心不穩或靠近邊緣"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "失足或重心不穩",
+      "label": "失足或重心不穩",
+      "aliases": [
+        "失足或重心不穩"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "失足或滑倒",
+      "label": "失足或滑倒",
+      "aliases": [
+        "失足或滑倒"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "失足重心不穩或不慎碰撞",
+      "label": "失足重心不穩或不慎碰撞",
+      "aliases": [
+        "失足重心不穩或不慎碰撞"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "未制定或未落實墜落災害防止計畫",
+      "label": "未制定或未落實墜落災害防止計畫",
+      "aliases": [
+        "未制定或未落實墜落災害防止計畫"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "潛在因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "未指派屋頂作業主管或未確實執行職責",
+      "label": "未指派屋頂作業主管或未確實執行職責",
+      "aliases": [
+        "未指派屋頂作業主管或未確實執行職責"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "未規劃安全通道",
+      "label": "未規劃安全通道",
+      "aliases": [
+        "未規劃安全通道"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "未設置完整防墜設施",
+      "label": "未設置完整防墜設施",
+      "aliases": [
+        "未設置完整防墜設施"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "未設置開口防護",
+      "label": "未設置開口防護",
+      "aliases": [
+        "未設置開口防護"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "未設置集體防墜設施",
+      "label": "未設置集體防墜設施",
+      "aliases": [
+        "未設置集體防墜設施"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "未設置適當防墜設施(僅警示帶)",
+      "label": "未設置適當防墜設施(僅警示帶)",
+      "aliases": [
+        "未設置適當防墜設施(僅警示帶)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "未落實安全帶掛置",
+      "label": "未落實安全帶掛置",
+      "aliases": [
+        "未落實安全帶掛置"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0006"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "未實施危害評估及防護措施",
+      "label": "未實施危害評估及防護措施",
+      "aliases": [
+        "未實施危害評估及防護措施"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "潛在因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "未實施危害評估與管理",
+      "label": "未實施危害評估與管理",
+      "aliases": [
+        "未實施危害評估與管理"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "未實施危害調查與評估",
+      "label": "未實施危害調查與評估",
+      "aliases": [
+        "未實施危害調查與評估"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "未確認安全帶是否確實掛置",
+      "label": "未確認安全帶是否確實掛置",
+      "aliases": [
+        "未確認安全帶是否確實掛置"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "安全管理不足",
+      "label": "安全管理不足",
+      "aliases": [
+        "安全管理不足"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "安全管理制度不完善(潛在因子)",
+      "label": "安全管理制度不完善(潛在因子)",
+      "aliases": [
+        "安全管理制度不完善(潛在因子)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "安全網作為主要防護",
+      "label": "安全網作為主要防護",
+      "aliases": [
+        "安全網作為主要防護"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "安全網設置不當或有間隙",
+      "label": "安全網設置不當或有間隙",
+      "aliases": [
+        "安全網設置不當或有間隙"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "安全網設置有效性不明",
+      "label": "安全網設置有效性不明",
+      "aliases": [
+        "安全網設置有效性不明"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "作業人員失足或重心不穩",
+      "label": "作業人員失足或重心不穩",
+      "aliases": [
+        "作業人員失足或重心不穩"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "作業人員未佩戴個人防護具",
+      "label": "作業人員未佩戴個人防護具",
+      "aliases": [
+        "作業人員未佩戴個人防護具"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "作業人員未注意安全",
+      "label": "作業人員未注意安全",
+      "aliases": [
+        "作業人員未注意安全"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "作業人員未將安全帶掛置於錨錠",
+      "label": "作業人員未將安全帶掛置於錨錠",
+      "aliases": [
+        "作業人員未將安全帶掛置於錨錠"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "作業人員暴露於墜落開口",
+      "label": "作業人員暴露於墜落開口",
+      "aliases": [
+        "作業人員暴露於墜落開口"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "作業人員靠近開口",
+      "label": "作業人員靠近開口",
+      "aliases": [
+        "作業人員靠近開口"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "作業流程因素(安全網安裝程序不當)",
+      "label": "作業流程因素(安全網安裝程序不當)",
+      "aliases": [
+        "作業流程因素(安全網安裝程序不當)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "作業區域雜亂",
+      "label": "作業區域雜亂",
+      "aliases": [
+        "作業區域雜亂"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "環境因素"
+    },
+    {
+      "id": "直接因子(高處作業邊緣無適當防護僅以警示帶區隔作業區域雜亂)",
+      "label": "直接因子(高處作業邊緣無適當防護僅以警示帶區隔作業區域雜亂)",
+      "aliases": [
+        "直接因子(高處作業邊緣無適當防護僅以警示帶區隔作業區域雜亂)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "直接因子(勞工未確認安全帶掛置易踏穿屋頂臨時性木板通道穩定性不足)",
+      "label": "直接因子(勞工未確認安全帶掛置易踏穿屋頂臨時性木板通道穩定性不足)",
+      "aliases": [
+        "直接因子(勞工未確認安全帶掛置易踏穿屋頂臨時性木板通道穩定性不足)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "直接因子樓板開口防護不足且作業人員未佩戴個人防護具",
+      "label": "直接因子樓板開口防護不足且作業人員未佩戴個人防護具",
+      "aliases": [
+        "直接因子樓板開口防護不足且作業人員未佩戴個人防護具"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "個人防護具使用不確實",
+      "label": "個人防護具使用不確實",
+      "aliases": [
+        "個人防護具使用不確實"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "個人防護具使用不確實(安全帶錨錠點不明確)",
+      "label": "個人防護具使用不確實(安全帶錨錠點不明確)",
+      "aliases": [
+        "個人防護具使用不確實(安全帶錨錠點不明確)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "缺乏現場安全督導",
+      "label": "缺乏現場安全督導",
+      "aliases": [
+        "缺乏現場安全督導"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "缺乏墜落災害防止計畫及專人督導",
+      "label": "缺乏墜落災害防止計畫及專人督導",
+      "aliases": [
+        "缺乏墜落災害防止計畫及專人督導"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "高處作業失衡",
+      "label": "高處作業失衡",
+      "aliases": [
+        "高處作業失衡"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0006"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "高處作業監督不足",
+      "label": "高處作業監督不足",
+      "aliases": [
+        "高處作業監督不足"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "高處作業環境",
+      "label": "高處作業環境",
+      "aliases": [
+        "高處作業環境"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "高處作業邊緣未設置適當防墜設施",
+      "label": "高處作業邊緣未設置適當防墜設施",
+      "aliases": [
+        "高處作業邊緣未設置適當防墜設施"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "現場安全督導不足(間接因子)",
+      "label": "現場安全督導不足(間接因子)",
+      "aliases": [
+        "現場安全督導不足(間接因子)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "現場安全管理與監督不足",
+      "label": "現場安全管理與監督不足",
+      "aliases": [
+        "現場安全管理與監督不足"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    },
+    {
+      "id": "現場材料堆放雜亂",
+      "label": "現場材料堆放雜亂",
+      "aliases": [
+        "現場材料堆放雜亂"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "環境因素"
+    },
+    {
+      "id": "設備因素(安全網設置不當或有間隙施工架邊緣防護不足)",
+      "label": "設備因素(安全網設置不當或有間隙施工架邊緣防護不足)",
+      "aliases": [
+        "設備因素(安全網設置不當或有間隙施工架邊緣防護不足)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "勞工失足或屋頂材料踏穿",
+      "label": "勞工失足或屋頂材料踏穿",
+      "aliases": [
+        "勞工失足或屋頂材料踏穿"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "勞工安全意識不足(間接因子)",
+      "label": "勞工安全意識不足(間接因子)",
+      "aliases": [
+        "勞工安全意識不足(間接因子)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "勞工個人防護具使用不確定",
+      "label": "勞工個人防護具使用不確定",
+      "aliases": [
+        "勞工個人防護具使用不確定"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "人為因素"
+    },
+    {
+      "id": "勞工從高處屋頂墜落至地面或樓下",
+      "label": "勞工從高處屋頂墜落至地面或樓下",
+      "aliases": [
+        "勞工從高處屋頂墜落至地面或樓下"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0014"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "勞工靠近未防護邊緣",
+      "label": "勞工靠近未防護邊緣",
+      "aliases": [
+        "勞工靠近未防護邊緣"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "開口未妥善防護",
+      "label": "開口未妥善防護",
+      "aliases": [
+        "開口未妥善防護"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "開口周圍暴露鋼筋",
+      "label": "開口周圍暴露鋼筋",
+      "aliases": [
+        "開口周圍暴露鋼筋"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "環境因素"
+    },
+    {
+      "id": "間接因子(未依規定規劃與設置防墜設施作業環境管理不善)",
+      "label": "間接因子(未依規定規劃與設置防墜設施作業環境管理不善)",
+      "aliases": [
+        "間接因子(未依規定規劃與設置防墜設施作業環境管理不善)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "管理因素(未落實防墜設施檢查與維護)",
+      "label": "管理因素(未落實防墜設施檢查與維護)",
+      "aliases": [
+        "管理因素(未落實防墜設施檢查與維護)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "樓板開口及高處邊緣無防護",
+      "label": "樓板開口及高處邊緣無防護",
+      "aliases": [
+        "樓板開口及高處邊緣無防護"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "樓板開口未設置適當防護",
+      "label": "樓板開口未設置適當防護",
+      "aliases": [
+        "樓板開口未設置適當防護"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "樓板開口未設置護蓋",
+      "label": "樓板開口未設置護蓋",
+      "aliases": [
+        "樓板開口未設置護蓋"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "設備因素"
+    },
+    {
+      "id": "潛在因子(未訂定墜落災害防止計畫)",
+      "label": "潛在因子(未訂定墜落災害防止計畫)",
+      "aliases": [
+        "潛在因子(未訂定墜落災害防止計畫)"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "潛在因子未制定或未落實墜落災害防止計畫安全衛生管理計畫不足",
+      "label": "潛在因子未制定或未落實墜落災害防止計畫安全衛生管理計畫不足",
+      "aliases": [
+        "潛在因子未制定或未落實墜落災害防止計畫安全衛生管理計畫不足"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "unknown",
+      "category": ""
+    },
+    {
+      "id": "濕滑地面",
+      "label": "濕滑地面",
+      "aliases": [
+        "濕滑地面"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "環境因素"
+    },
+    {
+      "id": "臨時性木板通道穩定性不足",
+      "label": "臨時性木板通道穩定性不足",
+      "aliases": [
+        "臨時性木板通道穩定性不足"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "直接因子",
+      "category": "作業流程因素"
+    },
+    {
+      "id": "警示帶防護不足",
+      "label": "警示帶防護不足",
+      "aliases": [
+        "警示帶防護不足"
+      ],
+      "frequency": 1,
+      "weight": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "average_risk_score": 20,
+      "causal_level": "間接因子",
+      "category": "管理因素"
+    }
+  ],
+  "edges": [
+    {
+      "source": "缺乏完善的職業安全衛生管理計畫",
+      "target": "教育訓練不足",
+      "weight": 2,
+      "frequency": 2,
+      "related_cases": [
+        "case_0008",
+        "case_0014"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "教育訓練不足",
+      "target": "未使用安全帶",
+      "weight": 2,
+      "frequency": 2,
+      "related_cases": [
+        "case_0010",
+        "case_0014"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "勞工失足或重心不穩(可能事件)",
+      "target": "墜落事故",
+      "weight": 2,
+      "frequency": 2,
+      "related_cases": [
+        "case_0005",
+        "case_0012"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "人員靠近危險區域",
+      "target": "失足或重心不穩",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "人員靠近或作業",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "可能事件(勞工失足或踏穿屋頂)",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "可能事件(勞工靠近邊緣作業或因絆倒失衡)",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "可能事件作業人員失足重心不穩或靠近邊緣",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "失足或重心不穩",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "失足或滑倒",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "失足重心不穩或不慎碰撞",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "未使用安全帶",
+      "target": "勞工失足或重心不穩(可能事件)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未使用安全帶",
+      "target": "可能事件作業人員失足重心不穩或靠近邊緣",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未使用安全帶",
+      "target": "勞工失足或屋頂材料踏穿",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0014"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未訂定墜落災害防止計畫",
+      "target": "護欄缺失",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未設置完整防墜設施",
+      "target": "樓板開口及高處邊緣無防護",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未設置開口防護",
+      "target": "作業人員靠近開口",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未設置適當防墜設施(僅警示帶)",
+      "target": "勞工靠近未防護邊緣",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未落實安全帶掛置",
+      "target": "高處作業失衡",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0006"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未實施危害評估與管理",
+      "target": "未設置完整防墜設施",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "未實施危害調查與評估",
+      "target": "未訂定墜落災害防止計畫",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "危害辨識不足",
+      "target": "護欄缺失",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "危害辨識不足",
+      "target": "間接因子(未依規定規劃與設置防墜設施作業環境管理不善)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "安全管理不足",
+      "target": "護欄缺失",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "安全管理制度不完善(潛在因子)",
+      "target": "教育訓練不足",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "作業人員失足或重心不穩",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "作業人員暴露於墜落開口",
+      "target": "作業人員失足或重心不穩",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "作業人員靠近開口",
+      "target": "失足或滑倒",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "作業流程因素(安全網安裝程序不當)",
+      "target": "設備因素(安全網設置不當或有間隙施工架邊緣防護不足)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "直接因子(高處作業邊緣無適當防護僅以警示帶區隔作業區域雜亂)",
+      "target": "可能事件(勞工靠近邊緣作業或因絆倒失衡)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "直接因子(勞工未確認安全帶掛置易踏穿屋頂臨時性木板通道穩定性不足)",
+      "target": "可能事件(勞工失足或踏穿屋頂)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "直接因子樓板開口防護不足且作業人員未佩戴個人防護具",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "個人防護具使用不確實(安全帶錨錠點不明確)",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "高處作業失衡",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0006"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "高處作業環境",
+      "target": "未設置適當防墜設施(僅警示帶)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "教育訓練不足",
+      "target": "現場安全督導不足(間接因子)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "教育訓練不足",
+      "target": "未落實安全帶掛置",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0006"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "教育訓練不足",
+      "target": "未實施危害調查與評估",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "現場安全督導不足(間接因子)",
+      "target": "勞工安全意識不足(間接因子)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "設備因素(安全網設置不當或有間隙施工架邊緣防護不足)",
+      "target": "勞工失足或重心不穩(可能事件)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "勞工失足或屋頂材料踏穿",
+      "target": "勞工從高處屋頂墜落至地面或樓下",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0014"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "勞工安全意識不足(間接因子)",
+      "target": "未使用安全帶",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0005"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "勞工從高處屋頂墜落至地面或樓下",
+      "target": "墜落事故",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0014"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "勞工靠近未防護邊緣",
+      "target": "失足重心不穩或不慎碰撞",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0009"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "開口未妥善防護",
+      "target": "人員靠近危險區域",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "間接因子(未依規定規劃與設置防墜設施作業環境管理不善)",
+      "target": "直接因子(高處作業邊緣無適當防護僅以警示帶區隔作業區域雜亂)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0011"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "管理因素(未落實防墜設施檢查與維護)",
+      "target": "作業流程因素(安全網安裝程序不當)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0012"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "管理措施不足",
+      "target": "開口未妥善防護",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0002"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "管理監督不足",
+      "target": "未設置開口防護",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0001"
+      ],
+      "confidence": "high",
+      "line_style": "solid"
+    },
+    {
+      "source": "管理監督不足",
+      "target": "教育訓練不足",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0006"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "樓板開口及高處邊緣無防護",
+      "target": "人員靠近或作業",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0013"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "潛在因子(未訂定墜落災害防止計畫)",
+      "target": "護欄缺失",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "潛在因子未制定或未落實墜落災害防止計畫安全衛生管理計畫不足",
+      "target": "教育訓練不足",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0010"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "護欄缺失",
+      "target": "作業人員暴露於墜落開口",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0003"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "護欄缺失",
+      "target": "直接因子樓板開口防護不足且作業人員未佩戴個人防護具",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0004"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "護欄缺失",
+      "target": "直接因子(勞工未確認安全帶掛置易踏穿屋頂臨時性木板通道穩定性不足)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0007"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    },
+    {
+      "source": "護欄缺失",
+      "target": "個人防護具使用不確實(安全帶錨錠點不明確)",
+      "weight": 1,
+      "frequency": 1,
+      "related_cases": [
+        "case_0008"
+      ],
+      "confidence": "uncertain",
+      "line_style": "dashed"
+    }
+  ],
+  "updated_at": "2026-06-16",
+  "total_cases": 14,
+  "build_policy": "case_by_case",
+  "quality_rules": {
+    "edges_from_ai_causal_path_only": true,
+    "no_cooccurrence_edges": true,
+    "uncertain_edges_are_dashed": true
+  },
+  "average_risk_score": 20
+}
