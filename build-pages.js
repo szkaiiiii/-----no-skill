@@ -15,4 +15,6 @@ for (const entry of entries) {
   fs.cpSync(source, target, { recursive: true });
 }
 
+fs.copyFileSync(path.join(root, "platform", "index.html"), path.join(dist, "index.html"));
+
 console.log("Static site copied to dist.");

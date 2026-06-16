@@ -1,6 +1,6 @@
 # Cloudflare Pages 設定
 
-此 repo 保留原本個人網站首頁，管理科學平台放在：
+此 repo 的 Cloudflare 部署首頁會直接顯示管理科學平台；平台也保留在：
 
 ```text
 /platform/
