@@ -1,0 +1,3408 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI輔助營造業墜落職災風險因子辨識與因果路徑分析平台</title>
+  <style>
+    :root {
+      --bg: #f5f7f8;
+      --panel: #ffffff;
+      --ink: #1f2933;
+      --muted: #64707d;
+      --line: #d9e0e6;
+      --brand: #0f766e;
+      --brand-dark: #0b5f59;
+      --amber: #b7791f;
+      --red: #b42318;
+      --blue: #2563eb;
+      --green: #15803d;
+      --shadow: 0 14px 40px rgba(22, 34, 45, .08);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+    }
+
+    aside {
+      background: #172126;
+      color: #f8fafc;
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #e8b923;
+      color: #172126;
+      font-weight: 900;
+      font-size: 22px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 0;
+      color: #b9c3ca;
+      font-size: 13px;
+    }
+
+    nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 11px 12px;
+      color: #d6dde2;
+      background: transparent;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .nav-btn svg { flex: 0 0 auto; }
+
+    .nav-btn.active,
+    .nav-btn:hover {
+      background: rgba(255,255,255,.12);
+      color: #ffffff;
+    }
+
+    main {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+      align-content: start;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .topbar h2 {
+      margin: 0 0 4px;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .topbar p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .status-pill {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: grid;
+      gap: 7px;
+      min-width: 260px;
+    }
+
+    .top-actions select {
+      min-height: 39px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .form-grid textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .span-2 {
+      grid-column: 1 / -1;
+    }
+
+    .secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      border-radius: 8px;
+      padding: 0 14px;
+      background: #e8eef2;
+      color: #21313b;
+      font-weight: 700;
+    }
+
+    .view { display: none; }
+    .view.active { display: grid; gap: 20px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 410px) minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .upload-zone {
+      min-height: 250px;
+      border: 2px dashed #a7b3bd;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      background: #f8fafb;
+      overflow: hidden;
+    }
+
+    .upload-zone img {
+      max-width: 100%;
+      max-height: 360px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .upload-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .file-row,
+    .control-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    input[type="password"],
+    select,
+    input[type="search"] {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 44px;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .primary:hover { background: var(--brand-dark); }
+    .primary:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    .meta {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .factor-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 178px;
+    }
+
+    .summary-box {
+      grid-column: 1 / -1;
+      border: 1px solid #b8d7d3;
+      background: #eefaf8;
+      border-radius: 8px;
+      padding: 14px;
+      color: #164e49;
+    }
+
+    .summary-box strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .fixed-summary {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-section {
+      border: 1px solid #b8d7d3;
+      background: #f3fbfa;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .summary-section h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #164e49;
+    }
+
+    .summary-section p {
+      margin: 0;
+      color: #33434d;
+    }
+
+    .summary-section ul {
+      margin: 6px 0 0;
+      padding-left: 18px;
+      color: #33434d;
+    }
+
+    .factor-box h4,
+    .suggestion h4 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+
+    .factor-box ul,
+    .suggestion ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .factor-box li,
+    .summary-section li {
+      margin: 6px 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tag.direct { background: #fee4e2; color: #912018; }
+    .tag.indirect { background: #fef0c7; color: #93370d; }
+    .tag.potential { background: #dcfae6; color: #05603a; }
+    .tag.path { background: #dbeafe; color: #1d4ed8; }
+    .tag.human { background: #dbeafe; color: #1d4ed8; }
+    .tag.equipment { background: #fef0c7; color: #93370d; }
+    .tag.environment { background: #ffedd5; color: #9a3412; }
+    .tag.management { background: #ead7c3; color: #6f3f1f; }
+    .tag.latent { background: #fee4e2; color: #912018; }
+    .tag.process { background: #e0e7ff; color: #3730a3; }
+
+    .factor-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 2px 4px 2px 0;
+      max-width: 100%;
+      white-space: normal;
+      text-align: left;
+      line-height: 1.35;
+    }
+
+    .factor-chip small {
+      opacity: 0.76;
+      font-weight: 700;
+    }
+
+    .risk-layout {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .score-card {
+      border-radius: 8px;
+      padding: 16px;
+      color: #ffffff;
+      background: var(--red);
+      min-height: 152px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+    }
+
+    .score-card strong {
+      font-size: 44px;
+      line-height: 1;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 112px repeat(5, minmax(74px, 1fr));
+      gap: 6px;
+      align-items: stretch;
+      font-size: 12px;
+    }
+
+    .cell {
+      min-height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      color: #24313b;
+      font-weight: 700;
+      border: 2px solid transparent;
+    }
+
+    .axis {
+      color: #33434d;
+      background: #eef2f5;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px;
+    }
+
+    .axis-title {
+      min-height: 32px;
+      background: #dbe4ea;
+      color: #1f2933;
+    }
+
+    .severity-title {
+      grid-column: span 5;
+    }
+
+    .risk-matrix-area {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .risk-legend {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      background: #ffffff;
+    }
+
+    .risk-legend h4 {
+      margin: 0 0 2px;
+      font-size: 14px;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: center;
+      color: #33434d;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(31, 41, 51, 0.18);
+    }
+
+    .risk-very-low { background: #dcfae6; }
+    .risk-low { background: #e5e7eb; }
+    .risk-medium { background: #fef0c7; }
+    .risk-high { background: #f9c5d1; }
+    .risk-critical { background: #fca5a5; }
+    .selected { border-color: #111827; }
+
+    .chain {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .node {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-weight: 700;
+      min-width: 116px;
+      text-align: center;
+    }
+
+    .arrow {
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .suggestion-grid,
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .suggestion {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .detail-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #ffffff;
+    }
+
+    .detail-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reason-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #f8fafb;
+    }
+
+    .reason-box h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .citation-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .citation {
+      border-left: 5px solid var(--blue);
+      background: #f8fafb;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .metric {
+      border-left: 5px solid var(--brand);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      min-height: 102px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 30px;
+      margin-top: 4px;
+    }
+
+    .case-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: #f8fafb;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 310px;
+      display: block;
+    }
+
+    .stats-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stats-panel canvas {
+      height: 420px;
+    }
+
+    .stats-table .factor-chip {
+      max-width: 100%;
+    }
+
+    .path-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .path-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .path-header .secondary {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .path-canvas {
+      min-height: 640px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(#edf2f5 1px, transparent 1px),
+        linear-gradient(90deg, #edf2f5 1px, transparent 1px);
+      background-size: 26px 26px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      padding: 24px;
+    }
+
+    .path-svg {
+      width: 100%;
+      height: 620px;
+      display: block;
+    }
+
+    .empty {
+      padding: 20px;
+      border: 1px dashed #a7b3bd;
+      border-radius: 8px;
+      color: var(--muted);
+      background: #f8fafb;
+      text-align: center;
+    }
+
+    .empty.error {
+      border-color: #fda29b;
+      color: #912018;
+      background: #fff4f2;
+      text-align: left;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .progress-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(23, 33, 38, .42);
+    }
+
+    .progress-overlay.active {
+      display: grid;
+    }
+
+    .progress-dialog {
+      width: min(520px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 22px 70px rgba(22, 34, 45, .22);
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .progress-dialog h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .progress-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .progress-percent {
+      color: var(--brand);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .progress-track {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e8eef2;
+      border: 1px solid #d3dce3;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--brand), #2f9e91);
+      transition: width .35s ease;
+    }
+
+    .progress-step {
+      margin: 0;
+      color: #33434d;
+      font-weight: 700;
+    }
+
+    .progress-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress-error {
+      display: none;
+      border: 1px solid #fda29b;
+      border-radius: 8px;
+      background: #fff4f2;
+      color: #912018;
+      padding: 12px;
+    }
+
+    .progress-dialog.failed .progress-error {
+      display: block;
+    }
+
+    .progress-dialog.failed .progress-fill {
+      background: var(--red);
+    }
+
+    .progress-actions {
+      display: none;
+      justify-content: flex-end;
+    }
+
+    .progress-dialog.failed .progress-actions {
+      display: flex;
+    }
+
+    @media (max-width: 1040px) {
+      .app { grid-template-columns: 1fr; }
+      aside {
+        position: static;
+        height: auto;
+      }
+      nav {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .nav-btn {
+        justify-content: center;
+      }
+      .nav-btn span { display: none; }
+      .grid,
+      .charts,
+      .risk-layout,
+      .risk-matrix-area,
+      .reason-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .span-2 { grid-column: auto; }
+      .result-grid,
+      .suggestion-grid,
+      .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      main { padding: 18px; }
+      .topbar {
+        display: grid;
+      }
+      .topbar h2 { font-size: 23px; }
+      .result-grid,
+      .suggestion-grid,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+      .case-toolbar {
+        display: grid;
+      }
+      .risk-matrix-area {
+        overflow-x: auto;
+      }
+      .matrix {
+        min-width: 560px;
+      }
+      table {
+        min-width: 720px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <section class="brand" aria-label="平台名稱">
+        <div class="brand-mark">AI</div>
+        <h1>營造業墜落職災風險因子辨識與因果路徑分析平台</h1>
+      </section>
+      <nav aria-label="主要功能">
+        <button class="nav-btn active" data-view="analysis" title="照片分析">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h3l2-2h6l2 2h3v12H4V7Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="13" r="3.5" stroke="currentColor" stroke-width="2"/></svg>
+          <span>照片分析</span>
+        </button>
+        <button class="nav-btn" data-view="projects" title="專案管理">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h6l2 2h8v10H4V7Z" stroke="currentColor" stroke-width="2"/><path d="M8 13h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>專案管理</span>
+        </button>
+        <button class="nav-btn" data-view="cases" title="案例庫">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5h14v14H5V5Z" stroke="currentColor" stroke-width="2"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="2"/></svg>
+          <span>案例庫</span>
+        </button>
+        <button class="nav-btn" data-view="knowledge" title="法規知識庫">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 4h10l2 2v14H6V4Z" stroke="currentColor" stroke-width="2"/><path d="M9 10h6M9 14h6M9 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>法規知識庫</span>
+        </button>
+        <button class="nav-btn" data-view="stats" title="統計分析">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>統計分析</span>
+        </button>
+        <button class="nav-btn" data-view="paths" title="因果路徑">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7h5l4 10h5M5 17h5l4-10h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="5" cy="7" r="2" fill="currentColor"/><circle cx="19" cy="7" r="2" fill="currentColor"/><circle cx="19" cy="17" r="2" fill="currentColor"/></svg>
+          <span>因果路徑</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="topbar">
+        <div>
+          <h2 id="pageTitle">照片分析</h2>
+          <p id="pageDesc">上傳工地照片，選擇提示策略後產生風險因子、風險矩陣、改善建議與單一案例因果鏈。</p>
+        </div>
+        <div class="top-actions">
+          <label for="projectSelect">目前專案</label>
+          <select id="projectSelect"></select>
+        </div>
+      </section>
+
+      <section class="view active" id="analysis">
+        <div class="grid">
+          <section class="panel">
+            <h3>照片上傳</h3>
+            <div class="upload-zone" id="previewBox">
+              <div>
+                <svg width="58" height="58" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16l4-4 3 3 5-6 4 5v5H4v-3Z" stroke="#64707d" stroke-width="2"/><path d="M4 5h16v14H4V5Z" stroke="#64707d" stroke-width="2"/></svg>
+                <p>支援 JPG、JPEG、PNG</p>
+              </div>
+            </div>
+            <div class="upload-actions">
+              <div class="file-row">
+                <label for="photoInput">選擇照片</label>
+                <input id="photoInput" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+              </div>
+              <div class="control-row">
+                <label for="strategySelect">Prompt Strategy Selector</label>
+                <select id="strategySelect">
+                  <option value="standard">Standard Analysis | 基準分析</option>
+                  <option value="cot">Chain of Thought | 因果推理導向</option>
+                  <option value="fewshot">Few-shot Analysis | 案例格式導向</option>
+                </select>
+              </div>
+              <div class="control-row">
+                <label for="apiKeyInput">Gemini API Key</label>
+                <input id="apiKeyInput" type="password" autocomplete="off" placeholder="貼上你的 Gemini API Key">
+              </div>
+              <div class="control-row">
+                <label for="modelSelect">Gemini Model</label>
+                <select id="modelSelect">
+                  <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+                  <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+                  <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+                </select>
+              </div>
+              <button class="primary" id="analyzeBtn" disabled>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" stroke="currentColor" stroke-width="2"/><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9L18 15Z" stroke="currentColor" stroke-width="2"/></svg>
+                開始分析
+              </button>
+            </div>
+            <div class="meta" id="fileMeta">
+              <span>尚未選擇照片</span>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h3>AI 風險因子辨識</h3>
+            <div id="factorResult" class="empty">完成照片分析後，這裡會顯示直接因子、間接因子與潛在因子。</div>
+          </section>
+        </div>
+
+        <section class="panel" id="riskSection">
+          <h3>風險矩陣評估</h3>
+          <div id="riskResult" class="empty">風險值公式：Risk Score = Likelihood × Severity。</div>
+        </section>
+
+        <section class="panel">
+          <h3>單一案例因果鏈</h3>
+          <div id="chainResult" class="empty">分析後會依照「潛在因子 → 間接因子 → 直接因子 → 事故事件」建立案例因果鏈。</div>
+        </section>
+
+        <section class="panel">
+          <h3>改善建議</h3>
+          <div id="suggestionResult" class="empty">系統將依工程控制、管理措施、教育訓練與個人防護提出改善建議。</div>
+        </section>
+      </section>
+
+      <section class="view" id="projects">
+        <section class="metric-grid">
+          <div class="metric"><span>案例數量</span><strong id="projectCaseCount">0</strong></div>
+          <div class="metric"><span>高風險因子數量</span><strong id="projectHighRiskCount">0</strong></div>
+          <div class="metric"><span>平均風險分數</span><strong id="projectAvgScore">0</strong></div>
+          <div class="metric"><span>最新分析日期</span><strong id="projectLatestDate">-</strong></div>
+        </section>
+
+        <section class="grid">
+          <div class="panel">
+            <h3>建立專案</h3>
+            <div class="form-grid">
+              <div class="control-row">
+                <label for="newProjectName">專案名稱</label>
+                <input id="newProjectName" type="text" placeholder="例如：A工地">
+              </div>
+              <div class="control-row">
+                <label for="newEngineeringName">工程名稱</label>
+                <input id="newEngineeringName" type="text" placeholder="例如：集合住宅新建工程">
+              </div>
+              <div class="control-row">
+                <label for="newProjectType">工程類型</label>
+                <input id="newProjectType" type="text" placeholder="例如：建築工程、橋梁工程">
+              </div>
+              <div class="control-row">
+                <label for="newContractor">承攬廠商</label>
+                <input id="newContractor" type="text" placeholder="例如：○○營造股份有限公司">
+              </div>
+              <div class="control-row span-2">
+                <label for="newProjectDesc">專案描述</label>
+                <textarea id="newProjectDesc" placeholder="補充工地位置、施工階段或安全管理重點"></textarea>
+              </div>
+              <div class="span-2">
+                <button class="primary" id="createProjectBtn">建立專案</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>目前專案資訊</h3>
+            <div id="projectInfo" class="detail-list"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>最常出現風險因子</h3>
+          <div id="projectTopFactor" class="empty">尚無案例資料。</div>
+        </section>
+      </section>
+
+      <section class="view" id="knowledge">
+        <section class="grid">
+          <div class="panel">
+            <h3>法規文件上傳</h3>
+            <div class="upload-actions">
+              <div class="control-row">
+                <label for="regulationFile">選擇文件</label>
+                <input id="regulationFile" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+              </div>
+              <div class="control-row">
+                <label for="regulationCategory">法規分類</label>
+                <select id="regulationCategory">
+                  <option>職業安全衛生法</option>
+                  <option>職業安全衛生設施規則</option>
+                  <option>營造安全衛生設施標準</option>
+                  <option>職業安全衛生教育訓練規則</option>
+                  <option>施工架安全檢查重點</option>
+                  <option>公司SOP</option>
+                  <option>自主檢查表</option>
+                  <option>其他法規</option>
+                </select>
+              </div>
+              <button class="primary" id="uploadRegulationBtn">上傳並建立索引</button>
+              <p class="small-note" id="ragStatus">TXT 可直接解析；PDF/DOCX 會嘗試載入瀏覽器解析套件後擷取文字。</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>語意搜尋測試</h3>
+            <div class="upload-actions">
+              <div class="control-row">
+                <label for="ragSearchInput">查詢內容</label>
+                <input id="ragSearchInput" type="search" placeholder="例如：高處作業護欄、安全帶、施工架">
+              </div>
+              <button class="secondary" id="ragSearchBtn">搜尋相關法規片段</button>
+            </div>
+            <div id="ragSearchResult" class="empty" style="margin-top:14px;">尚未搜尋。</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>法規知識庫</h3>
+          <div class="table-wrap">
+            <table aria-label="法規知識庫">
+              <thead>
+                <tr>
+                  <th>文件名稱</th>
+                  <th>分類</th>
+                  <th>Chunk 數</th>
+                  <th>建立日期</th>
+                </tr>
+              </thead>
+              <tbody id="regulationTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="cases">
+        <section class="panel">
+          <div class="case-toolbar">
+            <h3>案例資料庫</h3>
+            <input type="search" id="caseSearch" placeholder="搜尋案例編號或風險因子">
+          </div>
+          <div class="case-toolbar" style="margin:12px 0;">
+            <select id="caseRiskFilter">
+              <option value="">全部風險等級</option>
+              <option>極高風險</option>
+              <option>高風險</option>
+              <option>中風險</option>
+              <option>低風險</option>
+              <option>可接受</option>
+            </select>
+            <input type="date" id="caseDateFilter">
+            <select id="casePageSize">
+              <option value="10">每頁 10 筆</option>
+              <option value="20">每頁 20 筆</option>
+              <option value="50">每頁 50 筆</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table aria-label="案例資料庫">
+              <thead>
+                <tr>
+                  <th>案例編號</th>
+                  <th>上傳時間</th>
+                  <th>主要風險因子</th>
+                  <th>風險等級</th>
+                  <th>提示策略</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="caseTable"></tbody>
+            </table>
+          </div>
+          <div class="case-toolbar" style="margin-top:14px;">
+            <button class="secondary" id="prevPageBtn">上一頁</button>
+            <span id="pageInfo" class="small-note">第 1 / 1 頁</span>
+            <button class="secondary" id="nextPageBtn">下一頁</button>
+            <button class="secondary" id="exportJsonBtn">匯出 JSON</button>
+            <button class="secondary" id="exportCsvBtn">匯出 CSV</button>
+            <button class="secondary" id="exportExcelBtn">匯出 Excel</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>最相似前 3 筆案例</h3>
+          <div id="similarCases" class="empty">建立第一筆案例後會開始顯示相似案例。</div>
+        </section>
+      </section>
+
+      <section class="view" id="stats">
+        <section class="metric-grid">
+          <div class="metric"><span>總案例數</span><strong id="metricTotal">0</strong></div>
+          <div class="metric"><span>風險因子出現總次數</span><strong id="metricFactorTotal">0</strong></div>
+          <div class="metric"><span>不同風險因子數</span><strong id="metricUniqueFactors">0</strong></div>
+          <div class="metric"><span>最高頻風險因子</span><strong id="metricTopFactor">-</strong></div>
+        </section>
+
+        <section class="charts">
+          <div class="panel stats-panel">
+            <h3>風險因子出現次數排行榜</h3>
+            <canvas id="barChart" width="720" height="420"></canvas>
+          </div>
+        </section>
+
+        <section class="panel stats-table">
+          <h3>Risk Factor Statistics</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>排名</th>
+                  <th>標準化風險因子</th>
+                  <th>出現次數</th>
+                  <th>主要類別</th>
+                  <th>因果層級</th>
+                </tr>
+              </thead>
+              <tbody id="riskFactorStatsTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="paths">
+        <section class="panel path-panel">
+          <div class="path-header">
+            <div>
+              <h3>多案例因果路徑分析</h3>
+              <p class="small-note" id="pathNote">每新增一筆完成分析的案例後，系統會立即更新整體因果路徑圖。</p>
+            </div>
+            <button class="secondary" id="rebuildGraphBtn">重新建構因果路徑圖</button>
+          </div>
+          <div class="path-canvas">
+            <svg class="path-svg" id="pathSvg" viewBox="0 0 900 300" role="img" aria-label="因果路徑圖"></svg>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>最常見路徑</h3>
+          <div id="commonPaths" class="empty">累積案例後將顯示常見因果路徑，例如：教育訓練不足 → 未使用安全帶 → 墜落事故。</div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="progress-overlay" id="analysisProgressOverlay" role="dialog" aria-modal="true" aria-labelledby="analysisProgressTitle">
+    <div class="progress-dialog" id="analysisProgressDialog">
+      <div class="progress-header">
+        <div>
+          <h3 id="analysisProgressTitle">Gemini 分析進度</h3>
+          <p class="progress-note" id="analysisProgressNote">系統正在處理照片、案例資料與法規知識庫。</p>
+        </div>
+        <div class="progress-percent" id="analysisProgressPercent">0%</div>
+      </div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="analysisProgressFill"></div>
+      </div>
+      <p class="progress-step" id="analysisProgressStep">準備開始分析</p>
+      <div class="progress-error" id="analysisProgressError"></div>
+      <div class="progress-actions">
+        <button class="secondary" id="retryAnalysisBtn">重新分析</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const storeKey = "fall-risk-cases-v1";
+    const projectStoreKey = "fall-risk-projects-v2";
+    const currentProjectStoreKey = "fall-risk-current-project-v2";
+    const apiKeyStoreKey = "gemini-api-key-v1";
+    const embeddingModel = "gemini-embedding-001";
+    const riskCategories = ["人為因素", "設備因素", "管理因素", "環境因素", "作業流程因素", "潛在關鍵因子", "潛在因素"];
+    const seedCases = [
+      makeCase("CASE-001", "demo", "Standard Analysis | 基準分析", ["開口未防護", "護欄缺失"], ["巡檢不足", "危害辨識不足"], ["趕工文化"], 4, 5),
+      makeCase("CASE-002", "demo", "Few-shot Analysis | 案例格式導向", ["安全帶未使用"], ["教育訓練不足", "監督不足"], ["工班溝通不足"], 3, 5),
+      makeCase("CASE-003", "demo", "Chain of Thought | 因果推理導向", ["鷹架缺失", "護欄缺失"], ["作業規劃不良"], ["管理制度缺失"], 4, 4),
+      makeCase("CASE-004", "demo", "Standard Analysis | 基準分析", ["開口未防護"], ["巡檢不足"], ["趕工文化"], 3, 4),
+      makeCase("CASE-005", "demo", "Few-shot Analysis | 案例格式導向", ["安全帶未使用", "護欄缺失"], ["教育訓練不足"], ["管理制度缺失"], 4, 5),
+      makeCase("CASE-006", "demo", "Chain of Thought | 因果推理導向", ["鷹架缺失"], ["作業規劃不良", "危害辨識不足"], ["工班溝通不足"], 3, 4),
+      makeCase("CASE-007", "demo", "Standard Analysis | 基準分析", ["開口未防護"], ["監督不足"], ["趕工文化"], 4, 4),
+      makeCase("CASE-008", "demo", "Few-shot Analysis | 案例格式導向", ["安全帶未使用"], ["教育訓練不足"], ["管理制度缺失"], 3, 5),
+      makeCase("CASE-009", "demo", "Chain of Thought | 因果推理導向", ["護欄缺失"], ["巡檢不足"], ["工班溝通不足"], 3, 4)
+    ];
+
+    let projects = [];
+    let currentProjectId = sessionStorage.getItem(currentProjectStoreKey) || "";
+    let cases = [];
+    let regulations = [];
+    let serverStats = { total: 0, factorTotal: 0, uniqueFactors: 0, direct: 0, indirect: 0, potential: 0, highRiskFactors: 0, avgScore: 0, latestDate: "-", riskFactorStats: [] };
+    let casePagination = { page: 1, pageSize: 10, total: 0, totalPages: 1 };
+    let currentFile = null;
+    let lastResult = null;
+    let causalGraph = { nodes: [], edges: [], total_cases: 0, updated_at: "" };
+    let isAnalyzing = false;
+    let fakeProgressTimer = null;
+
+    const analysisProgressSteps = [
+      { percent: 10, step: "讀取圖片與案例資料" },
+      { percent: 20, step: "分析危害情境" },
+      { percent: 40, step: "辨識風險因子" },
+      { percent: 60, step: "建立因果路徑" },
+      { percent: 75, step: "執行風險評估矩陣" },
+      { percent: 85, step: "檢索法規知識庫（RAG）" },
+      { percent: 95, step: "產生改善建議" },
+      { percent: 100, step: "分析完成" }
+    ];
+
+    const pageCopy = {
+      analysis: ["照片分析", "上傳工地照片，選擇提示策略後產生風險因子、風險矩陣、改善建議與單一案例因果鏈。"],
+      projects: ["專案管理", "依不同工地建立獨立案例庫、統計分析、風險因子與法規知識庫。"],
+      cases: ["案例庫", "查詢已儲存案例、相似風險因子與風險等級。"],
+      knowledge: ["法規知識庫", "上傳法規、SOP 與檢查表，建立可供 Gemini 引用的 RAG 內容。"],
+      stats: ["統計分析", "彙整直接、間接與潛在風險因子的出現次數，協助建立案例知識庫。"],
+      paths: ["因果路徑", "累積案例後分析最常見的墜落職災因果路徑。"]
+    };
+
+    const strategyMap = {
+      standard: "Standard Analysis | 基準分析",
+      cot: "Chain of Thought | 因果推理導向",
+      fewshot: "Few-shot Analysis | 案例格式導向"
+    };
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+      button.addEventListener("click", () => switchView(button.dataset.view));
+    });
+
+    document.getElementById("projectSelect").addEventListener("change", event => {
+      currentProjectId = event.target.value;
+      sessionStorage.setItem(currentProjectStoreKey, currentProjectId);
+      cases = currentProject().cases;
+      casePagination.page = 1;
+      refreshFromStorage();
+    });
+
+    document.getElementById("createProjectBtn").addEventListener("click", createProjectFromForm);
+    document.getElementById("uploadRegulationBtn").addEventListener("click", uploadRegulationDocument);
+    document.getElementById("ragSearchBtn").addEventListener("click", runRagSearchFromInput);
+
+    document.getElementById("apiKeyInput").value = localStorage.getItem(apiKeyStoreKey) || "";
+    document.getElementById("apiKeyInput").addEventListener("input", event => {
+      localStorage.setItem(apiKeyStoreKey, event.target.value.trim());
+    });
+    window.addEventListener("resize", () => {
+      if (document.getElementById("stats").classList.contains("active")) drawCharts();
+    });
+
+    document.getElementById("photoInput").addEventListener("change", event => {
+      const file = event.target.files[0];
+      currentFile = file || null;
+      document.getElementById("analyzeBtn").disabled = !file || isAnalyzing;
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.getElementById("previewBox").innerHTML = `<img src="${reader.result}" alt="上傳照片預覽">`;
+      };
+      reader.readAsDataURL(file);
+
+      document.getElementById("fileMeta").innerHTML = `
+        <span>圖片名稱：${escapeHtml(file.name)}</span>
+        <span>上傳時間：${formatTime(new Date())}</span>
+      `;
+    });
+
+    document.getElementById("retryAnalysisBtn").addEventListener("click", () => {
+      hideAnalysisProgress();
+      document.getElementById("analyzeBtn").click();
+    });
+
+    document.getElementById("analyzeBtn").addEventListener("click", async () => {
+      if (!currentFile || isAnalyzing) return;
+      const apiKey = document.getElementById("apiKeyInput").value.trim();
+      if (!apiKey) {
+        showAnalysisError("請先輸入 Gemini API Key，才能進行真實 AI 圖像分析。");
+        return;
+      }
+
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      const originalText = analyzeBtn.innerHTML;
+      const startedAt = performance.now();
+      isAnalyzing = true;
+      setAnalysisButtonsDisabled(true);
+      showAnalysisProgress();
+      startFakeProgress();
+      analyzeBtn.textContent = "Gemini 分析中...";
+
+      try {
+        const strategy = document.getElementById("strategySelect").value;
+        const model = document.getElementById("modelSelect").value;
+        const result = await generateGeminiAnalysis(currentFile, strategy, model, apiKey, updateAnalysisProgress);
+        result.analysisDuration = Math.max(1, Math.round((performance.now() - startedAt) / 1000));
+        result.analysisMetrics = buildAnalysisMetrics(result);
+        result.project = currentProject().name;
+        result.projectName = currentProject().name;
+        const saved = await saveCaseToStorage(result, currentFile);
+        const savedCase = normalizeCase(saved.case);
+        lastResult = normalizeCase({
+          ...result,
+          id: savedCase.id,
+          title: savedCase.title || result.title,
+          project: savedCase.project || result.project,
+          image_path: savedCase.image_path,
+          uploadTime: savedCase.uploadTime || result.uploadTime
+        });
+        lastResult.analysisDuration = result.analysisDuration;
+        lastResult.analysisMetrics = result.analysisMetrics;
+        finishAnalysisProgress(result.analysisMetrics);
+        renderAnalysis(lastResult);
+        casePagination.page = 1;
+        await refreshFromStorage();
+      } catch (error) {
+        failAnalysisProgress(error.message || "Gemini 分析失敗，請確認 API Key、模型名稱與網路連線。");
+        showAnalysisError(error.message || "Gemini 分析失敗，請確認 API Key、模型名稱與網路連線。");
+      } finally {
+        stopFakeProgress();
+        isAnalyzing = false;
+        setAnalysisButtonsDisabled(false);
+        analyzeBtn.disabled = !currentFile;
+        analyzeBtn.innerHTML = originalText;
+      }
+    });
+
+    document.getElementById("caseSearch").addEventListener("input", () => { casePagination.page = 1; refreshFromStorage(); });
+    document.getElementById("caseRiskFilter").addEventListener("change", () => { casePagination.page = 1; refreshFromStorage(); });
+    document.getElementById("caseDateFilter").addEventListener("change", () => { casePagination.page = 1; refreshFromStorage(); });
+    document.getElementById("casePageSize").addEventListener("change", event => { casePagination.pageSize = Number(event.target.value); casePagination.page = 1; refreshFromStorage(); });
+    document.getElementById("prevPageBtn").addEventListener("click", () => { casePagination.page = Math.max(1, casePagination.page - 1); refreshFromStorage(); });
+    document.getElementById("nextPageBtn").addEventListener("click", () => { casePagination.page = Math.min(casePagination.totalPages, casePagination.page + 1); refreshFromStorage(); });
+    document.getElementById("exportJsonBtn").addEventListener("click", () => exportCases("json"));
+    document.getElementById("exportCsvBtn").addEventListener("click", () => exportCases("csv"));
+    document.getElementById("exportExcelBtn").addEventListener("click", () => exportCases("excel"));
+    document.getElementById("rebuildGraphBtn").addEventListener("click", rebuildCausalGraph);
+
+    initializeStorage();
+
+    function switchView(viewId) {
+      document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.view === viewId));
+      document.querySelectorAll(".view").forEach(view => view.classList.toggle("active", view.id === viewId));
+      document.getElementById("pageTitle").textContent = pageCopy[viewId][0];
+      document.getElementById("pageDesc").textContent = pageCopy[viewId][1];
+      if (viewId === "stats") drawCharts();
+      if (viewId === "paths") renderPaths();
+    }
+
+    function setAnalysisButtonsDisabled(disabled) {
+      ["analyzeBtn", "rebuildGraphBtn"].forEach(id => {
+        const button = document.getElementById(id);
+        if (button) button.disabled = disabled;
+      });
+    }
+
+    function showAnalysisProgress() {
+      const overlay = document.getElementById("analysisProgressOverlay");
+      const dialog = document.getElementById("analysisProgressDialog");
+      dialog.classList.remove("failed");
+      document.getElementById("analysisProgressError").textContent = "";
+      document.getElementById("analysisProgressNote").textContent = "系統正在處理照片、案例資料與法規知識庫。";
+      updateAnalysisProgress(0, "準備開始分析");
+      overlay.classList.add("active");
+    }
+
+    function hideAnalysisProgress() {
+      document.getElementById("analysisProgressOverlay").classList.remove("active");
+    }
+
+    function updateAnalysisProgress(percent, step) {
+      const safePercent = Math.min(100, Math.max(0, Math.round(Number(percent) || 0)));
+      const currentPercent = Number.parseInt(document.getElementById("analysisProgressPercent").textContent, 10) || 0;
+      if (safePercent < currentPercent && currentPercent < 100) return;
+      document.getElementById("analysisProgressPercent").textContent = `${safePercent}%`;
+      document.getElementById("analysisProgressFill").style.width = `${safePercent}%`;
+      document.getElementById("analysisProgressStep").textContent = `${safePercent}% - ${step || currentProgressStep(safePercent)}`;
+    }
+
+    function currentProgressStep(percent) {
+      return [...analysisProgressSteps].reverse().find(item => percent >= item.percent)?.step || "準備開始分析";
+    }
+
+    function startFakeProgress() {
+      stopFakeProgress();
+      fakeProgressTimer = window.setInterval(() => {
+        const currentPercent = Number.parseInt(document.getElementById("analysisProgressPercent").textContent, 10) || 0;
+        if (currentPercent >= 95) return;
+        const nextStep = analysisProgressSteps.find(item => item.percent > currentPercent);
+        if (nextStep) updateAnalysisProgress(nextStep.percent, nextStep.step);
+      }, 1200);
+    }
+
+    function stopFakeProgress() {
+      if (fakeProgressTimer) {
+        window.clearInterval(fakeProgressTimer);
+        fakeProgressTimer = null;
+      }
+    }
+
+    function finishAnalysisProgress(metrics) {
+      stopFakeProgress();
+      updateAnalysisProgress(100, "分析完成");
+      document.getElementById("analysisProgressNote").textContent =
+        `Gemini 分析完成，耗時 ${metrics.durationSeconds} 秒。`;
+      window.setTimeout(hideAnalysisProgress, 900);
+    }
+
+    function failAnalysisProgress(message) {
+      stopFakeProgress();
+      const dialog = document.getElementById("analysisProgressDialog");
+      dialog.classList.add("failed");
+      document.getElementById("analysisProgressStep").textContent = "分析失敗";
+      document.getElementById("analysisProgressNote").textContent = "請檢查 API Key、模型名稱或網路連線後重新分析。";
+      document.getElementById("analysisProgressError").textContent = message;
+    }
+
+    function buildAnalysisMetrics(result) {
+      const factorCount = result.factors?.length || (result.direct.length + result.indirect.length + result.potential.length);
+      return {
+        durationSeconds: result.analysisDuration || 0,
+        riskFactorCount: factorCount,
+        causalNodeCount: result.chain?.length || 0
+      };
+    }
+
+    async function initializeStorage() {
+      try {
+        await refreshFromStorage();
+      } catch (error) {
+        showAnalysisError("無法連接本機 storage 服務。請先執行：node server.js，並從 http://localhost:3000 開啟平台。");
+      }
+    }
+
+    async function refreshFromStorage() {
+      const params = new URLSearchParams({
+        page: casePagination.page,
+        pageSize: casePagination.pageSize,
+        project: currentProjectId || "",
+        q: document.getElementById("caseSearch")?.value.trim() || "",
+        date: document.getElementById("caseDateFilter")?.value || "",
+        risk: document.getElementById("caseRiskFilter")?.value || ""
+      });
+      const response = await fetch(`/api/bootstrap?${params.toString()}`);
+      if (!response.ok) throw new Error("Storage API unavailable.");
+      const data = await response.json();
+      projects = data.projects || [];
+      if (!currentProjectId && projects[0]) currentProjectId = projects[0].id;
+      cases = (data.cases || []).map(normalizeCase);
+      serverStats = data.stats || serverStats;
+      regulations = data.regulations || [];
+      causalGraph = data.graph || causalGraph;
+      casePagination = data.pagination || casePagination;
+      lastResult = cases[0] || null;
+      renderAll();
+    }
+
+    async function storageRequest(url, options = {}) {
+      const response = await fetch(url, options);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Storage API request failed.");
+      return data;
+    }
+
+    async function saveCaseToStorage(caseData, imageFile) {
+      const imageBase64 = await fileToBase64(imageFile);
+      return await storageRequest("/api/cases", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          case: caseData,
+          imageName: imageFile.name,
+          imageType: imageFile.type,
+          imageBase64
+        })
+      });
+    }
+
+    function currentFilters() {
+      return new URLSearchParams({
+        project: currentProjectId || "",
+        q: document.getElementById("caseSearch")?.value.trim() || "",
+        date: document.getElementById("caseDateFilter")?.value || "",
+        risk: document.getElementById("caseRiskFilter")?.value || ""
+      });
+    }
+
+    function exportCases(format) {
+      window.location.href = `/api/export?format=${encodeURIComponent(format)}&${currentFilters().toString()}`;
+    }
+
+    async function rebuildCausalGraph() {
+      if (!confirm("重新建構會清空目前整體因果路徑圖，並用所有已儲存案例重新計算。是否繼續？")) return;
+      const button = document.getElementById("rebuildGraphBtn");
+      button.disabled = true;
+      button.textContent = "重建中...";
+      try {
+        const data = await storageRequest("/api/causal-graph/rebuild", { method: "POST" });
+        causalGraph = data.graph || causalGraph;
+        await refreshFromStorage();
+      } finally {
+        button.disabled = false;
+        button.textContent = "重新建構因果路徑圖";
+      }
+    }
+
+    function loadProjects() {
+      const saved = localStorage.getItem(projectStoreKey);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          return parsed.map(project => ({
+            ...project,
+            cases: (project.cases || []).map(normalizeCase),
+            docs: project.docs || []
+          }));
+        } catch (error) {
+          localStorage.removeItem(projectStoreKey);
+        }
+      }
+
+      const legacyCases = loadCases().map(normalizeCase);
+      return [
+        createProject("A工地", "A工地工程", "建築工程", "尚未設定", "系統預設專案，承接既有案例資料。", legacyCases),
+        createProject("B工地", "B工地工程", "營造工程", "尚未設定", "可用於分場域管理。", []),
+        createProject("C工地", "C工地工程", "營造工程", "尚未設定", "可用於分場域管理。", [])
+      ];
+    }
+
+    function createProject(name, engineeringName, type, contractor, description, projectCases = []) {
+      const id = `project-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      return {
+        id,
+        name,
+        engineeringName,
+        type,
+        contractor,
+        createdDate: formatDate(new Date()),
+        description,
+        cases: projectCases,
+        docs: []
+      };
+    }
+
+    function currentProject() {
+      let project = projects.find(item => item.id === currentProjectId);
+      if (!project) {
+        project = projects[0] || { id: "A工地", name: "A工地", cases: [], docs: [] };
+        currentProjectId = project.id;
+      }
+      project.cases ||= [];
+      project.docs ||= [];
+      return project;
+    }
+
+    async function saveProjects() {
+      currentProject().cases = cases;
+      sessionStorage.setItem(currentProjectStoreKey, currentProjectId);
+    }
+
+    function refreshProjectSelector() {
+      const selector = document.getElementById("projectSelect");
+      selector.innerHTML = projects.map(project => `<option value="${project.id}">${escapeHtml(project.name)}</option>`).join("");
+      selector.value = currentProjectId;
+    }
+
+    async function createProjectFromForm() {
+      const name = document.getElementById("newProjectName").value.trim();
+      if (!name) return;
+      const data = await storageRequest("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          engineeringName: document.getElementById("newEngineeringName").value.trim() || name,
+          type: document.getElementById("newProjectType").value.trim() || "未分類工程",
+          contractor: document.getElementById("newContractor").value.trim() || "尚未設定",
+          description: document.getElementById("newProjectDesc").value.trim() || "尚未填寫專案描述。"
+        })
+      });
+      currentProjectId = data.project.id;
+      sessionStorage.setItem(currentProjectStoreKey, currentProjectId);
+      await refreshFromStorage();
+      ["newProjectName", "newEngineeringName", "newProjectType", "newContractor", "newProjectDesc"].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+    }
+
+    function loadCases() {
+      const saved = localStorage.getItem(storeKey);
+      if (saved) {
+        try { return JSON.parse(saved); } catch (error) { return [...seedCases]; }
+      }
+      return [...seedCases];
+    }
+
+    async function saveCases() {
+      await saveProjects();
+    }
+
+    function makeCase(id, fileName, strategy, direct, indirect, potential, likelihood, severity, options = {}) {
+      const score = likelihood * severity;
+      const factors = options.factors || buildFactorsFromLegacy(direct, indirect, potential);
+      const suggestions = normalizeSuggestions(options.suggestions, options.fixedSummary);
+      return {
+        id,
+        fileName,
+        uploadTime: options.uploadTime || formatTime(new Date()),
+        strategy,
+        direct,
+        indirect,
+        potential,
+        factors,
+        likelihood,
+        severity,
+        score,
+        level: riskLevel(score),
+        chain: options.chain || [potential[0], indirect[0], direct[0], "人員失足", "墜落事故"],
+        suggestions,
+        aiSummary: options.aiSummary || "",
+        likelihoodReason: options.likelihoodReason || "依可見危害暴露頻率與防護缺口估算。",
+        severityReason: options.severityReason || "墜落事故可能造成重傷、永久失能或死亡。",
+        caseReference: options.caseReference || "依本次照片可見情境與平台案例庫進行比對。",
+        regulationBasis: options.regulationBasis || "尚未引用法規知識庫。",
+        citations: options.citations || [],
+        analysisDuration: options.analysisDuration || 0,
+        analysisMetrics: options.analysisMetrics || null,
+        fixedSummary: normalizeFixedSummary(options.fixedSummary, {
+          aiSummary: options.aiSummary || "",
+          direct,
+          indirect,
+          potential,
+          severityScore: severity,
+          citations: options.citations || [],
+          suggestions,
+          penaltyContext: options.penaltyContext || []
+        })
+      };
+    }
+
+    function normalizeCase(item) {
+      const direct = normalizeList(item.direct, []);
+      const indirect = normalizeList(item.indirect, []);
+      const potential = normalizeList(item.potential, []);
+      const likelihood = clampScore(item.likelihood);
+      const severity = clampScore(item.severity);
+      const normalized = makeCase(
+        item.id || `CASE-${String(Date.now()).slice(-6)}`,
+        item.fileName || "unknown",
+        item.strategy || "Legacy",
+        direct.length ? direct : ["開口未防護"],
+        indirect.length ? indirect : ["危害辨識不足"],
+        potential.length ? potential : ["管理制度缺失"],
+        likelihood,
+        severity,
+        {
+          uploadTime: item.uploadTime,
+          chain: item.chain,
+          suggestions: item.suggestions,
+          factors: item.factors || null,
+          aiSummary: item.aiSummary,
+          likelihoodReason: item.likelihoodReason,
+          severityReason: item.severityReason,
+          caseReference: item.caseReference,
+          regulationBasis: item.regulationBasis,
+          citations: item.citations,
+          analysisDuration: item.analysisDuration,
+          analysisMetrics: item.analysisMetrics,
+          fixedSummary: item.fixedSummary
+        }
+      );
+      return normalized;
+    }
+
+    function buildFactorsFromLegacy(direct, indirect, potential) {
+      return [
+        ...direct.map(name => factorObject(name, "直接因子", inferRiskCategory(name))),
+        ...indirect.map(name => factorObject(name, "間接因子", inferRiskCategory(name))),
+        ...potential.map(name => factorObject(name, "潛在因子", "潛在因素"))
+      ];
+    }
+
+    function factorObject(name, causalLevel, riskCategory, description = "") {
+      return {
+        name,
+        causalLevel,
+        riskCategory: riskCategories.includes(riskCategory) ? riskCategory : inferRiskCategory(name),
+        description: description || `${name} 可能提高墜落職災發生機率。`
+      };
+    }
+
+    function inferRiskCategory(name) {
+      if (/安全帶|人員|配戴|失足|未使用/.test(name)) return "人為因素";
+      if (/護欄|鷹架|開口|設備|安全網|覆蓋板|上下設備/.test(name)) return "設備因素";
+      if (/濕滑|雜亂|照明|天候|地面|環境|風雨/.test(name)) return "環境因素";
+      if (/巡檢|監督|管理|制度|承攬|教育訓練|規劃|程序|流程|作業許可/.test(name)) return "管理因素";
+      if (/趕工|工班|溝通|文化|成本|排程/.test(name)) return "潛在因素";
+      return "潛在因素";
+    }
+
+    function generateAnalysis(strategy, fileName) {
+      const pools = {
+        standard: {
+          direct: ["開口未防護", "護欄缺失", "安全帶未使用"],
+          indirect: ["巡檢不足", "危害辨識不足", "作業規劃不良"],
+          potential: ["趕工文化", "工班溝通不足"]
+        },
+        cot: {
+          direct: ["護欄缺失", "鷹架缺失", "開口未防護"],
+          indirect: ["危害辨識不足", "監督不足", "作業規劃不良"],
+          potential: ["管理制度缺失", "趕工文化"]
+        },
+        fewshot: {
+          direct: ["安全帶未使用", "開口未防護", "護欄缺失"],
+          indirect: ["教育訓練不足", "監督不足", "巡檢不足"],
+          potential: ["管理制度缺失", "工班溝通不足"]
+        }
+      };
+      const selected = pools[strategy];
+      const likelihood = strategy === "standard" ? 3 : 4;
+      const severity = selected.direct.includes("安全帶未使用") ? 5 : 4;
+      const id = `CASE-${String(cases.length + 1).padStart(3, "0")}`;
+      return makeCase(id, fileName, strategyMap[strategy], selected.direct, selected.indirect, selected.potential, likelihood, severity);
+    }
+
+    async function generateGeminiAnalysis(file, strategy, model, apiKey, onProgress = () => {}) {
+      onProgress(10, "讀取圖片與案例資料");
+      const base64 = await fileToBase64(file);
+      onProgress(20, "分析危害情境");
+      const ragContext = await retrieveRegulationContext("營造業墜落 高處作業 護欄 安全帶 施工架 開口防護 職業安全衛生法", apiKey);
+      onProgress(40, "辨識風險因子");
+      const penaltyContext = await retrieveRegulationContext("職業安全衛生法 墜落 罰鍰 停工 死亡災害 有期徒刑 第6條 第18條 第36條 第37條", apiKey, {
+        title: "職業安全衛生法",
+        limit: 6
+      });
+      const mergedContext = mergeRegulationContexts(penaltyContext, ragContext).slice(0, 8);
+      onProgress(60, "建立因果路徑");
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{
+            role: "user",
+            parts: [
+              { text: buildGeminiPrompt(strategy, mergedContext, penaltyContext) },
+              { inline_data: { mime_type: file.type || "image/jpeg", data: base64 } }
+            ]
+          }],
+          generationConfig: {
+            temperature: 0.2,
+            response_mime_type: "application/json"
+          }
+        })
+      });
+      onProgress(75, "執行風險評估矩陣");
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = payload.error?.message || `HTTP ${response.status}`;
+        throw new Error(`Gemini API 回傳錯誤：${message}`);
+      }
+
+      const text = payload.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("").trim();
+      if (!text) {
+        throw new Error("Gemini 沒有回傳可讀取的分析結果。");
+      }
+
+      const parsed = parseGeminiJson(text);
+      const factors = normalizeRiskFactors(parsed.riskFactors);
+      onProgress(85, "檢索法規知識庫（RAG）");
+      const direct = factors.filter(item => item.causalLevel === "直接因子").map(item => item.name);
+      const indirect = factors.filter(item => item.causalLevel === "間接因子").map(item => item.name);
+      const potential = factors.filter(item => item.causalLevel === "潛在因子").map(item => item.name);
+      if (!direct.length) direct.push("開口未防護");
+      if (!indirect.length) indirect.push("危害辨識不足");
+      if (!potential.length) potential.push("管理制度缺失");
+      const likelihood = clampScore(parsed.likelihood);
+      const severity = clampScore(parsed.severity);
+      const chain = normalizeList(parsed.causalChain, [potential[0], indirect[0], direct[0], "墜落事故"]).slice(0, 6);
+      const suggestions = normalizeSuggestions(parsed.suggestions, parsed.fixedSummary || parsed.analysisSummary);
+      onProgress(95, "產生改善建議");
+      const id = `CASE-${String(cases.length + 1).padStart(3, "0")}`;
+
+      return makeCase(
+        id,
+        file.name,
+        `${strategyMap[strategy]} | ${model}`,
+        direct,
+        indirect,
+        potential,
+        likelihood,
+        severity,
+        {
+          chain,
+          suggestions,
+          factors,
+          aiSummary: parsed.summary || "",
+          fixedSummary: parsed.fixedSummary || parsed.analysisSummary || null,
+          likelihoodReason: parsed.likelihoodReason || "",
+          severityReason: parsed.severityReason || "",
+          caseReference: parsed.caseReference || "",
+          regulationBasis: parsed.regulationBasis || "",
+          citations: normalizeCitations(parsed.regulationCitations || parsed.citations || []),
+          penaltyContext
+        }
+      );
+    }
+
+    function buildGeminiPrompt(strategy, ragContext = [], penaltyContext = []) {
+      const strategyInstruction = {
+        standard: "採用一般提示方式，輸出精簡但完整的風險辨識結果。",
+        cot: "請先在內部進行逐步因果分析，但最終只輸出結構化摘要，不要輸出完整推理過程。",
+        fewshot: "請參考案例格式：開口未防護 → 巡檢不足 → 趕工壓力 → 墜落事故，以及未使用安全帶 → 教育訓練不足 → 監督不足 → 墜落事故。"
+      };
+      const regulationContextText = ragContext.length
+        ? ragContext.map((item, index) => `[${index + 1}] 法規名稱：${item.title}；條號：${item.article || "未標示"}；內容：${item.text}`).join("\n")
+        : "目前沒有可引用的法規知識庫內容。若無可引用內容，請明確標示「未引用」。";
+      const penaltyContextText = penaltyContext.length
+        ? penaltyContext.map((item, index) => `[罰則${index + 1}] 法規名稱：${item.title}；條號：${item.article || "未標示"}；內容：${item.text}`).join("\n")
+        : "目前未從法規知識庫取得職業安全衛生法罰則片段。若無可引用內容，請明確標示「未引用」。";
+
+      return `
+你是營造業職業安全分析助理。請分析使用者上傳的工地照片，辨識可能造成墜落職業災害的風險因子。
+${strategyInstruction[strategy]}
+
+以下是本專案法規知識庫語意搜尋結果，若與照片風險相關，請引用：
+${regulationContextText}
+
+以下是「可能面臨的罰則」專用的法規知識庫片段。第7點只能引用這些職業安全衛生法片段，不得引用其他法規或自行擴寫：
+${penaltyContextText}
+
+請只回傳 JSON，不要使用 Markdown。JSON 欄位必須如下：
+{
+  "summary": "一段語意完整、精簡不冗長的整體照片風險摘要",
+  "fixedSummary": {
+    "hazardIdentification": "1. 危害情境判讀，語意完整且精簡說明照片中高處作業、開口、護欄、安全帶、施工架等危害情境。",
+    "potentialAccidentScenario": {
+      "possibleAccident": "可能事故，例如高處墜落",
+      "possibleResults": ["可能結果，例如墜落至地面", "墜落至樓板開口", "墜落至施工架外側"],
+      "accidentSeverity": "事故嚴重程度，例如極高"
+    },
+    "immediateRiskFactors": [
+      { "category": "人為因素", "factor": "未配戴安全帶" },
+      { "category": "設備因素", "factor": "未設置護欄" },
+      { "category": "環境因素", "factor": "天氣惡劣" }
+    ],
+    "immediateRiskExplanation": "AI說明，語意完整且精簡說明上述立即因子如何直接造成墜落。",
+    "potentialInjuries": {
+      "injuries": ["頭部外傷", "顱內出血", "脊椎損傷", "骨盆骨折", "四肢骨折", "永久失能", "死亡"],
+      "aiAssessment": "AI評估，語意完整且精簡說明死亡或重傷風險。"
+    },
+    "regulatoryCompliance": [
+      {
+        "lawName": "法規名稱",
+        "article": "條文",
+        "keyPoint": "重點內容，需引用RAG法規庫；若未引用請寫未引用。"
+      }
+    ],
+    "possiblePenalties": {
+      "occupationalAccident": "預先假設已發生墜落職業災害，只引用職業安全衛生法，以精簡文字說明最重的3點罰則。",
+      "possibleViolations": ["職業安全衛生法第6條第1項第5款", "職業安全衛生法第36條第1項", "職業安全衛生法第40條", "職業安全衛生法第43條第1項第2款"],
+      "possibleDispositions": ["部分或全部停工", "新臺幣5萬元以上300萬元以下罰鍰", "死亡災害可處5年以下有期徒刑、拘役或科或併科新臺幣150萬元以下罰金"]
+    },
+    "improvementSuggestions": {
+      "immediate": ["立即停止高處作業", "設置護欄", "設置安全網", "配戴安全帶"]
+    }
+  },
+  "riskFactors": [
+    {
+      "name": "未配戴安全帶",
+      "causalLevel": "直接因子",
+      "riskCategory": "人為因素",
+      "description": "作業人員未依規定使用個人防護具。"
+    }
+  ],
+  "likelihood": 1到5的整數,
+  "likelihoodReason": "可能性評分理由，必須說明暴露頻率、防護缺口或現場情境",
+  "severity": 1到5的整數,
+  "severityReason": "嚴重度評分理由，必須說明可能傷害後果",
+  "caseReference": "引用照片或相似案例內容作為評分依據",
+  "regulationBasis": "引用法規依據摘要；若沒有法規內容則寫未引用",
+  "regulationCitations": [
+    {
+      "lawName": "法規名稱",
+      "article": "條號",
+      "quote": "引用內容",
+      "confidence": 0.0到1.0的小數
+    }
+  ],
+  "causalChain": ["潛在因子", "間接因子", "直接因子", "可能事件", "墜落事故"],
+  "suggestions": {
+    "engineering": ["工程控制措施"],
+    "management": ["管理措施"],
+    "training": ["教育訓練建議"],
+    "ppe": ["個人防護措施"]
+  }
+}
+
+fixedSummary 為報告固定格式，必須完整輸出上述 1、2、3、5、6、7、8 對應欄位。所有說明不得硬性限制字數，需語意充分、句子完整、避免斷字，但也不要冗長鋪陳。
+第7點「可能面臨的罰則」不得發散引用其他法規，不得寫籠統責任。請預先假設墜落職業災害已發生，只引用職業安全衛生法，並只列出罰則最重的3點；每點包含條號、處分或罰鍰/刑責，不要輸出超過3點。
+fixedSummary.regulatoryCompliance 必須優先引用RAG法規庫，顯示法規名稱、條文、重點內容；若沒有可引用內容，需明確寫未引用。
+因果層級只能使用：直接因子、間接因子、潛在因子。
+風險類別只能使用：人為因素、設備因素、管理因素、環境因素、作業流程因素、潛在關鍵因子。
+風險矩陣定義：likelihood 5=幾乎確定發生、4=很可能發生、3=可能發生、2=較少發生、1=極少發生；severity 5=災難性（死亡或多人死亡）、4=重大（永久失能）、3=中等（住院傷害）、2=輕微（需醫療處置）、1=可忽略（輕傷）。
+風險等級：20~25極高風險、15~19高風險、8~14中風險、4~7低風險、1~3可接受。
+若照片資訊不足，請根據可見情境保守判斷，並在 summary 說明限制。`;
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(",")[1]);
+        reader.onerror = () => reject(new Error("照片讀取失敗，請重新選擇圖片。"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function parseGeminiJson(text) {
+      const cleaned = text
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/```$/i, "")
+        .trim();
+      try {
+        return JSON.parse(cleaned);
+      } catch (error) {
+        const match = cleaned.match(/\{[\s\S]*\}/);
+        if (match) return JSON.parse(match[0]);
+        throw new Error("Gemini 回傳內容不是有效 JSON，請再試一次。");
+      }
+    }
+
+    function normalizeList(value, fallback) {
+      if (Array.isArray(value)) {
+        const list = value.map(item => String(item).trim()).filter(Boolean);
+        if (list.length) return list;
+      }
+      if (typeof value === "string" && value.trim()) return [value.trim()];
+      return fallback;
+    }
+
+    function normalizeSuggestions(value, fixedSummary = null) {
+      const fallback = {
+        engineering: ["補齊防墜設施並確認固定強度"],
+        management: ["建立巡檢表與施工前危害辨識流程"],
+        training: ["加強高處作業與墜落危害教育訓練"],
+        ppe: ["確認全身式安全帶、安全帽與防滑鞋使用狀況"]
+      };
+      const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
+      const fixed = fixedSummary && typeof fixedSummary === "object" ? fixedSummary.improvementSuggestions || {} : {};
+      const immediate = normalizeList(fixed.immediate, []);
+      return {
+        engineering: normalizeList(firstValue(source, ["engineering", "工程控制措施", "工程控制", "engineeringControls"]) || immediate, fallback.engineering),
+        management: normalizeList(firstValue(source, ["management", "管理措施", "行政管理", "administrativeControls"]) || fixed.management, fallback.management),
+        training: normalizeList(firstValue(source, ["training", "教育訓練建議", "教育訓練", "trainingRecommendations"]) || fixed.training, fallback.training),
+        ppe: normalizeList(firstValue(source, ["ppe", "個人防護措施", "個人防護具", "personalProtectiveEquipment"]) || fixed.ppe, fallback.ppe)
+      };
+    }
+
+    function firstValue(source, keys) {
+      for (const key of keys) {
+        if (source[key] !== undefined && source[key] !== null) return source[key];
+      }
+      return null;
+    }
+
+    function normalizeRiskFactors(value) {
+      const factors = Array.isArray(value) ? value : [];
+      const normalized = factors.map(item => {
+        if (typeof item === "string") return factorObject(item, "直接因子", inferRiskCategory(item));
+        return factorObject(
+          String(item.name || item.factor || "").trim(),
+          ["直接因子", "間接因子", "潛在因子"].includes(item.causalLevel) ? item.causalLevel : "直接因子",
+          item.riskCategory,
+          item.description
+        );
+      }).filter(item => item.name);
+
+      if (normalized.length) return normalized;
+      return buildFactorsFromLegacy(["開口未防護"], ["危害辨識不足"], ["管理制度缺失"]);
+    }
+
+    function normalizeCitations(value) {
+      if (!Array.isArray(value)) return [];
+      return value.map(item => ({
+        lawName: String(item.lawName || item.title || "未標示法規").trim(),
+        article: String(item.article || "未標示條號").trim(),
+        quote: String(item.quote || item.text || "未提供引用內容").trim(),
+        confidence: Math.max(0, Math.min(1, Number(item.confidence) || 0))
+      })).filter(item => item.quote);
+    }
+
+    function normalizeFixedSummary(value, context = {}) {
+      const source = value && typeof value === "object" ? value : {};
+      const citations = normalizeCitations(context.citations || []);
+      const suggestions = context.suggestions || {};
+      const direct = normalizeList(context.direct, ["未配戴安全帶"]);
+      const indirect = normalizeList(context.indirect, ["安全監督不足"]);
+      const potential = normalizeList(context.potential, ["管理制度缺失"]);
+      const severityText = context.severityScore >= 5 ? "極高" : context.severityScore >= 4 ? "高" : "中等";
+      const penaltyBasis = buildPenaltyBasisFromContext(context.penaltyContext || []);
+      const compliance = Array.isArray(source.regulatoryCompliance) && source.regulatoryCompliance.length
+        ? source.regulatoryCompliance
+        : citations.length
+          ? citations.map(item => ({ lawName: item.lawName, article: item.article, keyPoint: item.quote }))
+          : [{ lawName: "未引用", article: "未引用", keyPoint: "目前專案法規知識庫未提供可引用條文。" }];
+
+      return {
+        hazardIdentification: normalizeSummaryText(
+          source.hazardIdentification || context.aiSummary || `現場疑似存在高處作業墜落危害，主要可見風險包含${direct.slice(0, 2).join("、")}，並可能受到${indirect[0]}與${potential[0]}影響。若人員失足或防護失效，可能造成嚴重墜落事故。`
+        ),
+        potentialAccidentScenario: {
+          possibleAccident: source.potentialAccidentScenario?.possibleAccident || "高處墜落",
+          possibleResults: normalizeList(source.potentialAccidentScenario?.possibleResults, ["墜落至地面", "墜落至樓板開口", "墜落至施工架外側"]),
+          accidentSeverity: source.potentialAccidentScenario?.accidentSeverity || severityText
+        },
+        immediateRiskFactors: normalizeImmediateRiskFactors(source.immediateRiskFactors, direct),
+        immediateRiskExplanation: normalizeSummaryText(
+          source.immediateRiskExplanation || `上述立即風險因子會使作業人員失去防墜保護，若現場護欄、安全帶或開口防護不足，一旦踩空、滑倒或受到外力影響，可能立即導致高處墜落。`
+        ),
+        potentialInjuries: {
+          injuries: normalizeList(source.potentialInjuries?.injuries, ["頭部外傷", "顱內出血", "脊椎損傷", "骨盆骨折", "四肢骨折", "永久失能", "死亡"]),
+          aiAssessment: normalizeSummaryText(source.potentialInjuries?.aiAssessment || `本案例若發生墜落，可能造成頭部、脊椎與四肢嚴重傷害，並有永久失能或死亡風險；依目前風險矩陣判斷，死亡風險為${severityText}。`)
+        },
+        regulatoryCompliance: compliance.map(item => ({
+          lawName: item.lawName || "未引用",
+          article: item.article || "未引用",
+          keyPoint: item.keyPoint || item.quote || "未提供重點內容"
+        })),
+        possiblePenalties: {
+          occupationalAccident: normalizePenaltyText(penaltyBasis.occupationalAccident || source.possiblePenalties?.occupationalAccident),
+          possibleViolations: normalizeList(penaltyBasis.possibleViolations, source.possiblePenalties?.possibleViolations || ["職業安全衛生法"]),
+          possibleDispositions: normalizeList(penaltyBasis.possibleDispositions, source.possiblePenalties?.possibleDispositions || ["依職業安全衛生法裁處"])
+        },
+        improvementSuggestions: {
+          immediate: normalizeList(source.improvementSuggestions?.immediate, suggestions.engineering || ["立即停止高處作業", "設置護欄", "設置安全網", "配戴安全帶"])
+        }
+      };
+    }
+
+    function normalizeImmediateRiskFactors(value, fallbackDirect) {
+      if (Array.isArray(value) && value.length) {
+        return value.map(item => ({
+          category: item.category || inferRiskCategory(item.factor || item.name || item),
+          factor: item.factor || item.name || String(item)
+        })).filter(item => item.factor);
+      }
+      return fallbackDirect.slice(0, 4).map(item => ({
+        category: inferRiskCategory(item),
+        factor: item
+      }));
+    }
+
+    function normalizeSummaryText(text) {
+      return String(text || "")
+        .replace(/\s+/g, " ")
+        .replace(/ \，/g, "，")
+        .replace(/ \。/g, "。")
+        .trim();
+    }
+
+    function normalizePenaltyText(text) {
+      const clean = String(text || "")
+        .replace(/\s+/g, " ")
+        .replace(/ \，/g, "，")
+        .replace(/ \。/g, "。")
+        .trim();
+      return clean || "未從法規知識庫取得職業安全衛生法罰則內容。";
+    }
+
+    function buildPenaltyBasisFromContext(context = []) {
+      const items = context
+        .filter(item => /職業安全衛生法/.test(`${item.title || ""}${item.documentName || ""}${item.text || ""}`))
+        .map(item => ({
+          article: item.article || extractArticle(item.text),
+          text: normalizePenaltyText(item.text)
+        }))
+        .filter(item => item.text);
+      const prioritized = items
+        .filter(item => /墜落|罰鍰|停工|死亡災害|有期徒刑|罰金/.test(item.text))
+        .map(item => ({ ...item, severityRank: penaltySeverityRank(item) }))
+        .sort((a, b) => b.severityRank - a.severityRank)
+        .slice(0, 3);
+      const selected = prioritized.length ? prioritized : items.slice(0, 3);
+      const dispositions = selected.map(item => {
+        const article = item.article && item.article !== "未標示條號" ? `${item.article}：` : "";
+        return `依職業安全衛生法${article}${item.text.replace(/^法規名稱：職業安全衛生法\s*/u, "")}`;
+      });
+      const text = dispositions.join(" ");
+
+      return {
+        occupationalAccident: text || "依職業安全衛生法，若未設置防止墜落等必要安全衛生設備或措施並發生職業災害，得依法裁處罰鍰、停工；如致死亡災害，另涉刑責。",
+        possibleViolations: selected.map(item => `職業安全衛生法${item.article && item.article !== "未標示條號" ? item.article : ""}`).filter(Boolean),
+        possibleDispositions: dispositions.filter(Boolean).slice(0, 3)
+      };
+    }
+
+    function penaltySeverityRank(item) {
+      const text = `${item.article || ""}${item.text || ""}`;
+      let score = 0;
+      if (/死亡災害|死亡/.test(text)) score += 50;
+      if (/有期徒刑|拘役|罰金/.test(text)) score += 40;
+      if (/停工/.test(text)) score += 30;
+      if (/300\s*萬|300萬元|300 萬元/.test(text)) score += 20;
+      if (/第6條第1項第5款/.test(text)) score += 10;
+      return score;
+    }
+
+    async function uploadRegulationDocument() {
+      const file = document.getElementById("regulationFile").files[0];
+      const category = document.getElementById("regulationCategory").value;
+      const status = document.getElementById("ragStatus");
+      if (!file) {
+        status.textContent = "請先選擇 PDF、DOCX 或 TXT 文件。";
+        return;
+      }
+
+      const apiKey = document.getElementById("apiKeyInput").value.trim();
+      status.textContent = "正在擷取文字與建立 chunks...";
+      try {
+        const uploaded = await storageRequest("/api/regulations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            project: currentProject().name,
+            category,
+            fileName: file.name,
+            fileType: file.type,
+            fileBase64: await fileToBase64(file)
+          })
+        });
+
+        const text = await extractDocumentText(file);
+        const chunks = chunkText(text).map((chunk, index) => ({
+          id: `${Date.now()}-${index}`,
+          title: category,
+          article: extractArticle(chunk),
+          text: chunk,
+          embedding: null
+        }));
+
+        if (apiKey) {
+          status.textContent = `正在使用 Gemini 建立 ${chunks.length} 個向量...`;
+          for (const chunk of chunks) {
+            chunk.embedding = await embedText(`title: ${category} | text: ${chunk.text}`, apiKey);
+          }
+        } else {
+          status.textContent = "未輸入 Gemini API Key，已建立關鍵字索引；輸入 Key 後可使用 embedding 語意搜尋。";
+        }
+
+        currentProject().docs.push({
+          id: `doc-${Date.now()}`,
+          name: file.name,
+          category,
+          createdDate: formatDate(new Date()),
+          chunks
+        });
+        regulations.unshift(uploaded.document);
+        renderRegulationTable();
+        status.textContent = `已建立索引：${file.name}，共 ${chunks.length} 個 chunks。`;
+      } catch (error) {
+        status.textContent = error.message || "文件解析失敗。";
+      }
+    }
+
+    async function extractDocumentText(file) {
+      const lower = file.name.toLowerCase();
+      if (lower.endsWith(".txt") || file.type === "text/plain") {
+        return await file.text();
+      }
+      if (lower.endsWith(".pdf") || file.type === "application/pdf") {
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+        const pdfjsLib = window.pdfjsLib;
+        if (!pdfjsLib) throw new Error("PDF 解析套件載入失敗。");
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        const buffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const pages = [];
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+          const page = await pdf.getPage(pageNumber);
+          const content = await page.getTextContent();
+          pages.push(content.items.map(item => item.str).join(" "));
+        }
+        return pages.join("\n");
+      }
+      if (lower.endsWith(".docx") || file.type.includes("wordprocessingml")) {
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.7.2/mammoth.browser.min.js");
+        if (!window.mammoth) throw new Error("DOCX 解析套件載入失敗。");
+        const buffer = await file.arrayBuffer();
+        const result = await window.mammoth.extractRawText({ arrayBuffer: buffer });
+        return result.value;
+      }
+      throw new Error("目前僅支援 PDF、DOCX、TXT。");
+    }
+
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        if (document.querySelector(`script[src="${src}"]`)) {
+          resolve();
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error("外部解析套件載入失敗，請確認網路連線或改用 TXT。"));
+        document.head.appendChild(script);
+      });
+    }
+
+    function chunkText(text) {
+      const clean = String(text || "").replace(/\s+/g, " ").trim();
+      if (!clean) throw new Error("文件沒有可索引的文字內容。");
+      const chunks = [];
+      const size = 700;
+      const overlap = 120;
+      for (let index = 0; index < clean.length; index += size - overlap) {
+        chunks.push(clean.slice(index, index + size));
+      }
+      return chunks;
+    }
+
+    function extractArticle(text) {
+      const match = text.match(/第\s*[一二三四五六七八九十百千\d]+\s*條(?:\s*第\s*[一二三四五六七八九十百千\d]+\s*項)?(?:\s*第\s*[一二三四五六七八九十百千\d]+\s*款)?|Article\s*\d+|§\s*\d+/i);
+      return match ? match[0].replace(/\s+/g, "") : "未標示條號";
+    }
+
+    async function embedText(text, apiKey) {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${embeddingModel}:embedContent`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey
+        },
+        body: JSON.stringify({
+          taskType: "RETRIEVAL_DOCUMENT",
+          content: { parts: [{ text }] }
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error?.message || "Gemini embedding 建立失敗。");
+      return payload.embedding?.values || payload.embeddings?.[0]?.values || null;
+    }
+
+    async function retrieveRegulationContext(query, apiKey, options = {}) {
+      await ensureRegulationDocsLoaded();
+      const docs = currentProject().docs || [];
+      const limit = options.limit || 4;
+      const titleFilter = String(options.title || "").trim();
+      let chunks = docs.flatMap(doc => (doc.chunks || []).map(chunk => ({ ...chunk, documentName: doc.name, title: doc.category })));
+      if (titleFilter) {
+        chunks = chunks.filter(chunk =>
+          String(chunk.title || "").includes(titleFilter) ||
+          String(chunk.documentName || "").includes(titleFilter) ||
+          String(chunk.text || "").includes(`法規名稱：${titleFilter}`)
+        );
+      }
+      if (!chunks.length) return [];
+
+      if (apiKey && chunks.some(chunk => chunk.embedding)) {
+        try {
+          const queryVector = await embedQuery(`task: search result | query: ${query}`, apiKey);
+          return chunks
+            .filter(chunk => chunk.embedding)
+            .map(chunk => ({ ...chunk, score: cosineSimilarity(queryVector, chunk.embedding) }))
+            .sort((a, b) => b.score - a.score)
+            .slice(0, limit);
+        } catch (error) {
+          return keywordSearch(query, chunks).slice(0, limit);
+        }
+      }
+      return keywordSearch(query, chunks).slice(0, limit);
+    }
+
+    function mergeRegulationContexts(...groups) {
+      const seen = new Set();
+      return groups.flat().filter(item => {
+        const key = `${item.documentName || ""}|${item.article || ""}|${item.text || ""}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    async function ensureRegulationDocsLoaded() {
+      const project = currentProject();
+      project.docs ||= [];
+      const loaded = new Set(project.docs.map(doc => doc.name));
+      const pending = (regulations || []).filter(doc => doc.path && !loaded.has(doc.name));
+      for (const doc of pending) {
+        try {
+          const response = await fetch(encodeURI(doc.path));
+          if (!response.ok) continue;
+          const blob = await response.blob();
+          const file = new File([blob], doc.name, { type: blob.type || mimeFromName(doc.name) });
+          const text = await extractDocumentText(file);
+          const chunks = chunkText(text).map((chunk, index) => ({
+            id: `${doc.id || doc.name}-${index}`,
+            title: doc.category,
+            article: extractArticle(chunk),
+            text: chunk,
+            embedding: null
+          }));
+          project.docs.push({
+            id: doc.id || `doc-${Date.now()}`,
+            name: doc.name,
+            category: doc.category,
+            createdDate: doc.created_at || formatDate(new Date()),
+            chunks
+          });
+        } catch (error) {
+          console.warn("Regulation document could not be indexed.", doc.name, error);
+        }
+      }
+    }
+
+    function mimeFromName(name) {
+      const lower = String(name || "").toLowerCase();
+      if (lower.endsWith(".txt")) return "text/plain";
+      if (lower.endsWith(".pdf")) return "application/pdf";
+      if (lower.endsWith(".docx")) return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+      return "application/octet-stream";
+    }
+
+    async function embedQuery(text, apiKey) {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${embeddingModel}:embedContent`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey
+        },
+        body: JSON.stringify({
+          taskType: "RETRIEVAL_QUERY",
+          content: { parts: [{ text }] }
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error?.message || "Gemini 查詢向量建立失敗。");
+      return payload.embedding?.values || payload.embeddings?.[0]?.values || [];
+    }
+
+    function keywordSearch(query, chunks) {
+      const terms = String(query).split(/\s+/).filter(Boolean);
+      return chunks
+        .map(chunk => ({
+          ...chunk,
+          score: terms.reduce((sum, term) => sum + (chunk.text.includes(term) ? 1 : 0), 0)
+        }))
+        .sort((a, b) => b.score - a.score);
+    }
+
+    function cosineSimilarity(a, b) {
+      let dot = 0;
+      let magA = 0;
+      let magB = 0;
+      const length = Math.min(a.length, b.length);
+      for (let index = 0; index < length; index++) {
+        dot += a[index] * b[index];
+        magA += a[index] * a[index];
+        magB += b[index] * b[index];
+      }
+      if (!magA || !magB) return 0;
+      return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+    }
+
+    async function runRagSearchFromInput() {
+      const query = document.getElementById("ragSearchInput").value.trim();
+      const resultBox = document.getElementById("ragSearchResult");
+      if (!query) return;
+      resultBox.className = "empty";
+      resultBox.textContent = "搜尋中...";
+      const apiKey = document.getElementById("apiKeyInput").value.trim();
+      const results = await retrieveRegulationContext(query, apiKey);
+      if (!results.length) {
+        resultBox.textContent = "目前知識庫沒有可搜尋內容。";
+        return;
+      }
+      resultBox.className = "citation-list";
+      resultBox.innerHTML = results.map(item => `
+        <div class="citation">
+          <strong>${escapeHtml(item.title)} | ${escapeHtml(item.article || "未標示條號")}</strong>
+          <p class="small-note">信心分數：${Number(item.score || 0).toFixed(2)} | ${escapeHtml(item.documentName || "")}</p>
+          <p>${escapeHtml(item.text.slice(0, 220))}</p>
+        </div>
+      `).join("");
+    }
+
+    function clampScore(value) {
+      const number = Number.parseInt(value, 10);
+      if (Number.isNaN(number)) return 3;
+      return Math.min(5, Math.max(1, number));
+    }
+
+    function showAnalysisError(message) {
+      document.getElementById("factorResult").className = "empty error";
+      document.getElementById("factorResult").innerHTML = `<strong>無法完成 Gemini 分析</strong><br>${escapeHtml(message)}`;
+    }
+
+    function renderAnalysis(result) {
+      document.getElementById("factorResult").className = "result-grid";
+      document.getElementById("factorResult").innerHTML = `
+        ${renderAnalysisCompletion(result)}
+        ${renderFixedSummary(result.fixedSummary)}
+        ${factorBox("direct", "直接因子", result.direct)}
+        ${factorBox("indirect", "間接因子", result.indirect)}
+        ${factorBox("potential", "潛在因子", result.potential)}
+        <div class="span-2">${factorCategoryLegend()}</div>
+        <div class="span-2 detail-list">${renderRiskFactorDetails(result.factors)}</div>
+      `;
+      document.getElementById("riskResult").className = "risk-layout";
+      document.getElementById("riskResult").innerHTML = `
+        <div class="score-card">
+          <span>${result.level}</span>
+          <strong>${result.score}</strong>
+          <span>可能性 ${result.likelihood} × 嚴重度 ${result.severity}</span>
+        </div>
+        <div>
+          <div class="risk-matrix-area">
+            <div class="matrix">${matrixCells(result.likelihood, result.severity)}</div>
+            ${riskLegend()}
+          </div>
+          <div class="reason-grid" style="margin-top:16px;">
+            <div class="reason-box">
+              <h4>可能性評分理由</h4>
+              <p>${escapeHtml(result.likelihoodReason)}</p>
+            </div>
+            <div class="reason-box">
+              <h4>嚴重度評分理由</h4>
+              <p>${escapeHtml(result.severityReason)}</p>
+            </div>
+            <div class="reason-box">
+              <h4>引用案例內容</h4>
+              <p>${escapeHtml(result.caseReference)}</p>
+            </div>
+            <div class="reason-box">
+              <h4>引用法規依據</h4>
+              <p>${escapeHtml(result.regulationBasis)}</p>
+            </div>
+          </div>
+          ${renderCitations(result.citations)}
+        </div>
+      `;
+      document.getElementById("chainResult").className = "chain";
+      document.getElementById("chainResult").innerHTML = result.chain.map((item, index) => {
+        const node = `<div class="node">${escapeHtml(item)}</div>`;
+        return index === result.chain.length - 1 ? node : `${node}<span class="arrow">→</span>`;
+      }).join("");
+      document.getElementById("suggestionResult").className = "suggestion-grid";
+      document.getElementById("suggestionResult").innerHTML = `
+        ${suggestionBox("工程控制措施", result.suggestions.engineering)}
+        ${suggestionBox("管理措施", result.suggestions.management)}
+        ${suggestionBox("教育訓練建議", result.suggestions.training)}
+        ${suggestionBox("個人防護措施", result.suggestions.ppe)}
+      `;
+    }
+
+    function renderAnalysisCompletion(result) {
+      const metrics = result.analysisMetrics || buildAnalysisMetrics(result);
+      if (!metrics.durationSeconds && !result.analysisDuration) return "";
+      return `
+        <div class="summary-box">
+          <strong>✅ Gemini 分析完成</strong>
+          <div>分析耗時：${escapeHtml(String(metrics.durationSeconds || result.analysisDuration || 0))} 秒</div>
+          <div>辨識風險因子：${escapeHtml(String(metrics.riskFactorCount || 0))} 個</div>
+          <div>新增因果節點：${escapeHtml(String(metrics.causalNodeCount || 0))} 個</div>
+        </div>
+      `;
+    }
+
+    async function editCase(id) {
+      const item = cases.find(row => row.id === id);
+      if (!item) return;
+      const title = prompt("修改標題", item.title || item.fileName || "");
+      if (title === null) return;
+      const description = prompt("修改描述", item.description || item.aiSummary || "");
+      if (description === null) return;
+      const likelihood = Number(prompt("修改可能性分數（1-5）", item.likelihood));
+      const severity = Number(prompt("修改嚴重度分數（1-5）", item.severity));
+      const factorText = prompt("修改風險因子 JSON", JSON.stringify(item.factors || [], null, 2));
+      if (factorText === null) return;
+      let factors = item.factors || [];
+      try {
+        factors = JSON.parse(factorText);
+      } catch (error) {
+        alert("風險因子 JSON 格式錯誤，已取消修改。");
+        return;
+      }
+      const aiSummary = prompt("修改 AI 摘要", item.aiSummary || item.fixedSummary?.hazardIdentification || "");
+      if (aiSummary === null) return;
+      const score = clampScore(likelihood) * clampScore(severity);
+      const updated = {
+        ...item,
+        title,
+        description,
+        aiSummary,
+        factors,
+        direct: factors.filter(f => f.causalLevel === "直接因子").map(f => f.name),
+        indirect: factors.filter(f => f.causalLevel === "間接因子").map(f => f.name),
+        potential: factors.filter(f => f.causalLevel === "潛在因子").map(f => f.name),
+        likelihood: clampScore(likelihood),
+        severity: clampScore(severity),
+        score,
+        level: riskLevel(score)
+      };
+      await storageRequest(`/api/cases/${encodeURIComponent(id)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated)
+      });
+      await refreshFromStorage();
+    }
+
+    async function deleteCaseFromStorage(id) {
+      if (!confirm(`確定刪除 ${id}？JSON 與圖片檔都會刪除。`)) return;
+      await storageRequest(`/api/cases/${encodeURIComponent(id)}`, { method: "DELETE" });
+      await refreshFromStorage();
+    }
+
+    function renderFixedSummary(summary) {
+      if (!summary) return "";
+      return `
+        <div class="fixed-summary">
+          <div class="summary-section">
+            <h4>1. 危害情境判讀（Hazard Identification）</h4>
+            <p>${escapeHtml(summary.hazardIdentification)}</p>
+          </div>
+          <div class="summary-section">
+            <h4>2. 潛在事故類型（Potential Accident Scenario）</h4>
+            <p>可能事故：${escapeHtml(summary.potentialAccidentScenario.possibleAccident)}</p>
+            <p>可能結果：${summary.potentialAccidentScenario.possibleResults.map(escapeHtml).join("、")}</p>
+            <p>事故嚴重程度：${escapeHtml(summary.potentialAccidentScenario.accidentSeverity)}</p>
+          </div>
+          <div class="summary-section">
+            <h4>3. 立即風險因子（Immediate Risk Factors）</h4>
+            <ul>${summary.immediateRiskFactors.map(item => `<li>${factorChip(item.factor, item.category)}</li>`).join("")}</ul>
+            <p>AI說明：${escapeHtml(summary.immediateRiskExplanation)}</p>
+          </div>
+          <div class="summary-section">
+            <h4>5. 可能造成的人員傷害（Potential Injuries）</h4>
+            <p>若發生墜落事故，可能導致：${summary.potentialInjuries.injuries.map(escapeHtml).join("、")}</p>
+            <p>AI評估：${escapeHtml(summary.potentialInjuries.aiAssessment)}</p>
+          </div>
+          <div class="summary-section">
+            <h4>6. 法規符合性分析</h4>
+            ${summary.regulatoryCompliance.map(item => `
+              <p>法規名稱：${escapeHtml(item.lawName)}</p>
+              <p>條文：${escapeHtml(item.article)}</p>
+              <p>重點內容：${escapeHtml(item.keyPoint)}</p>
+            `).join("")}
+          </div>
+          <div class="summary-section">
+            <h4>7. 可能面臨的罰則</h4>
+            <p>可能涉及：${summary.possiblePenalties.possibleViolations.map(escapeHtml).join("、")}</p>
+            <ul>${summary.possiblePenalties.possibleDispositions.slice(0, 3).map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          </div>
+          <div class="summary-section">
+            <h4>8. 改善建議</h4>
+            <p>立即改善：${summary.improvementSuggestions.immediate.map(escapeHtml).join("、")}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRiskFactorDetails(factors = []) {
+      if (!factors.length) return "";
+      return factors.map(item => `
+        <div class="detail-card">
+          <strong>${factorChip(item.name, item.riskCategory)}</strong>
+          <div class="chip-row">
+            <span class="tag path">${escapeHtml(item.causalLevel)}</span>
+            ${categoryBadge(item.riskCategory || inferRiskCategory(item.name))}
+          </div>
+          <p>${escapeHtml(item.description)}</p>
+        </div>
+      `).join("");
+    }
+
+    function renderCitations(citations = []) {
+      if (!citations.length) return "";
+      return `
+        <div class="citation-list" style="margin-top:16px;">
+          ${citations.map(item => `
+            <div class="citation">
+              <strong>${escapeHtml(item.lawName)} | ${escapeHtml(item.article)}</strong>
+              <p class="small-note">引用信心分數：${Number(item.confidence || 0).toFixed(2)}</p>
+              <p>${escapeHtml(item.quote)}</p>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function factorBox(type, title, items) {
+      return `
+        <div class="factor-box">
+          <span class="tag ${type}">${title}</span>
+          <h4>${items.length} 項風險因子</h4>
+          <ul>${items.map(item => `<li>${factorChip(item)}</li>`).join("")}</ul>
+        </div>
+      `;
+    }
+
+    function factorChip(name, category = "") {
+      const resolvedCategory = normalizeRiskCategoryName(category || inferRiskCategory(name));
+      return `<span class="tag factor-chip ${factorCategoryClass(resolvedCategory)}">${escapeHtml(name)} <small>${escapeHtml(resolvedCategory)}</small></span>`;
+    }
+
+    function caseFactorChips(item) {
+      const factors = item.factors && item.factors.length
+        ? item.factors
+        : buildFactorsFromLegacy(item.direct || [], item.indirect || [], item.potential || []);
+      return factors.map(factor => factorChip(factor.name, factor.riskCategory));
+    }
+
+    function factorCategoryLegend() {
+      const items = [
+        ["人為因素", "human"],
+        ["設備因素", "equipment"],
+        ["環境因素", "environment"],
+        ["管理因素", "management"],
+        ["潛在因素", "latent"]
+      ];
+      return `
+        <div class="chip-row" aria-label="風險因子顏色圖例">
+          ${items.map(([label, className]) => `<span class="tag ${className}">${label}</span>`).join("")}
+        </div>
+      `;
+    }
+
+    function categoryBadge(category) {
+      const resolvedCategory = normalizeRiskCategoryName(category);
+      return `<span class="tag ${factorCategoryClass(resolvedCategory)}">${escapeHtml(resolvedCategory)}</span>`;
+    }
+
+    function normalizeRiskCategoryName(category) {
+      const value = String(category || "").trim();
+      if (value === "潛在關鍵因子") return "潛在因素";
+      if (value === "作業流程因素") return "管理因素";
+      return value || "潛在因素";
+    }
+
+    function factorCategoryClass(category) {
+      const value = normalizeRiskCategoryName(category);
+      if (value === "人為因素") return "human";
+      if (value === "設備因素") return "equipment";
+      if (value === "環境因素") return "environment";
+      if (value === "管理因素") return "management";
+      if (value === "作業流程因素") return "process";
+      return "latent";
+    }
+
+    function categoryColor(category) {
+      const value = normalizeRiskCategoryName(category);
+      if (value === "人為因素") return "#dbeafe";
+      if (value === "設備因素") return "#fef0c7";
+      if (value === "環境因素") return "#ffedd5";
+      if (value === "管理因素") return "#ead7c3";
+      return "#fee4e2";
+    }
+
+    function suggestionBox(title, items) {
+      return `
+        <div class="suggestion">
+          <h4>${title}</h4>
+          <ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </div>
+      `;
+    }
+
+    function matrixCells(selectedLikelihood, selectedSeverity) {
+      const severityLabels = ["可忽略1", "較低2", "中等3", "重大4", "災難性5"];
+      const likelihoodLabels = {
+        5: "幾可確定5",
+        4: "極有可能4",
+        3: "可能3",
+        2: "不太可能2",
+        1: "極少發生1"
+      };
+      let html = `
+        <div class="cell axis axis-title"></div>
+        <div class="cell axis axis-title severity-title">嚴重度分級</div>
+        <div class="cell axis axis-title">可能性分級</div>
+        ${severityLabels.map(label => `<div class="cell axis">${label}</div>`).join("")}
+      `;
+      for (let l = 5; l >= 1; l--) {
+        html += `<div class="cell axis">${likelihoodLabels[l]}</div>`;
+        for (let s = 1; s <= 5; s++) {
+          const score = l * s;
+          const isSelected = l === selectedLikelihood && s === selectedSeverity;
+          html += `<div class="cell ${riskClass(score)} ${isSelected ? "selected" : ""}">${score}</div>`;
+        }
+      }
+      return html;
+    }
+
+    function riskLegend() {
+      const items = [
+        ["risk-critical", "極高風險(20~25)"],
+        ["risk-high", "高度風險(10~16)"],
+        ["risk-medium", "中度風險(5~9)"],
+        ["risk-low", "低度風險(3~4)"],
+        ["risk-very-low", "極低風險(1~2)"]
+      ];
+      return `
+        <div class="risk-legend">
+          <h4>圖例</h4>
+          ${items.map(([className, label]) => `
+            <div class="legend-item">
+              <span class="legend-swatch ${className}"></span>
+              <span>${label}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderAll() {
+      currentProject().cases = cases;
+      refreshProjectSelector();
+      renderProjectDashboard();
+      renderCases();
+      renderMetrics();
+      renderRegulationTable();
+      drawCharts();
+      renderPaths();
+    }
+
+    function renderProjectDashboard() {
+      const project = currentProject();
+      const highRiskCount = serverStats.highRiskFactors || 0;
+      const avg = serverStats.avgScore || 0;
+      const latest = serverStats.latestDate || "-";
+      const top = getTopFactor();
+
+      document.getElementById("projectCaseCount").textContent = serverStats.total || 0;
+      document.getElementById("projectHighRiskCount").textContent = highRiskCount;
+      document.getElementById("projectAvgScore").textContent = avg ? avg.toFixed(1) : "0";
+      document.getElementById("projectLatestDate").textContent = latest;
+      document.getElementById("projectInfo").innerHTML = `
+        <div class="detail-card"><strong>專案名稱</strong><p>${escapeHtml(project.name)}</p></div>
+        <div class="detail-card"><strong>工程名稱</strong><p>${escapeHtml(project.engineeringName)}</p></div>
+        <div class="detail-card"><strong>工程類型</strong><p>${escapeHtml(project.type)}</p></div>
+        <div class="detail-card"><strong>承攬廠商</strong><p>${escapeHtml(project.contractor)}</p></div>
+        <div class="detail-card"><strong>建立日期</strong><p>${escapeHtml(project.createdDate)}</p></div>
+        <div class="detail-card"><strong>專案描述</strong><p>${escapeHtml(project.description)}</p></div>
+      `;
+      const topBox = document.getElementById("projectTopFactor");
+      if (!top) {
+        topBox.className = "empty";
+        topBox.textContent = "尚無案例資料。";
+      } else {
+        topBox.className = "detail-card";
+        topBox.innerHTML = `<strong>${factorChip(top.name, top.category)}</strong><p>出現 ${top.count} 次</p>`;
+      }
+    }
+
+    function getTopFactor() {
+      if (serverStats.riskFactorStats?.length) return serverStats.riskFactorStats[0];
+      if (serverStats.topFactor) return serverStats.topFactor;
+      const counts = new Map();
+      cases.flatMap(item => item.factors || []).forEach(factor => {
+        const existing = counts.get(factor.name) || {
+          name: factor.name,
+          count: 0,
+          category: factor.riskCategory || inferRiskCategory(factor.name)
+        };
+        existing.count += 1;
+        counts.set(factor.name, existing);
+      });
+      return [...counts.values()].sort((a, b) => b.count - a.count)[0] || null;
+    }
+
+    function renderRegulationTable() {
+      const docs = regulations || [];
+      document.getElementById("regulationTable").innerHTML = docs.map(doc => `
+        <tr>
+          <td><strong>${escapeHtml(doc.name)}</strong></td>
+          <td>${escapeHtml(doc.category)}</td>
+          <td>${doc.chunks?.length || "-"}</td>
+          <td>${escapeHtml(doc.created_at || doc.createdDate)}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="4">目前專案尚未上傳法規文件。</td></tr>`;
+    }
+
+    function renderCases() {
+      document.getElementById("caseTable").innerHTML = cases.map(item => `
+        <tr>
+          <td><strong>${escapeHtml(item.id)}</strong></td>
+          <td>${escapeHtml(item.uploadTime)}</td>
+          <td>${caseFactorChips(item).slice(0, 5).join(" ")}</td>
+          <td>${escapeHtml(item.level)} (${item.score})</td>
+          <td>${escapeHtml(item.strategy)}</td>
+          <td>
+            <button class="secondary" onclick="editCase('${escapeHtml(item.id)}')">編輯</button>
+            <button class="secondary" onclick="deleteCaseFromStorage('${escapeHtml(item.id)}')">刪除</button>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="6">沒有符合條件的案例</td></tr>`;
+
+      document.getElementById("pageInfo").textContent = `第 ${casePagination.page} / ${casePagination.totalPages} 頁，共 ${casePagination.total} 筆`;
+      document.getElementById("prevPageBtn").disabled = casePagination.page <= 1;
+      document.getElementById("nextPageBtn").disabled = casePagination.page >= casePagination.totalPages;
+
+      const base = lastResult || cases[0];
+      if (!base || cases.length <= 1) {
+        document.getElementById("similarCases").className = "empty";
+        document.getElementById("similarCases").textContent = "建立第一筆案例後會開始顯示相似案例。";
+        return;
+      }
+      const similar = cases
+        .filter(item => item.id !== base.id)
+        .map(item => ({ item, match: overlap(base, item) }))
+        .sort((a, b) => b.match - a.match)
+        .slice(0, 3);
+      document.getElementById("similarCases").className = "table-wrap";
+      document.getElementById("similarCases").innerHTML = `
+        <table>
+          <thead><tr><th>案例編號</th><th>相似風險因子</th><th>風險等級</th></tr></thead>
+          <tbody>${similar.map(row => `
+            <tr>
+              <td>${escapeHtml(row.item.id)}</td>
+              <td>${row.match} 項</td>
+              <td>${escapeHtml(row.item.level)} (${row.item.score})</td>
+            </tr>
+          `).join("")}</tbody>
+        </table>
+      `;
+    }
+
+    function renderMetrics() {
+      document.getElementById("metricTotal").textContent = serverStats.total || 0;
+      document.getElementById("metricFactorTotal").textContent = serverStats.factorTotal || 0;
+      document.getElementById("metricUniqueFactors").textContent = serverStats.uniqueFactors || 0;
+      const top = getTopFactor();
+      document.getElementById("metricTopFactor").textContent = top ? `${top.name} (${top.count})` : "-";
+      renderRiskFactorStatsTable();
+    }
+
+    function countCategories() {
+      return {
+        direct: serverStats.direct || 0,
+        indirect: serverStats.indirect || 0,
+        potential: serverStats.potential || 0
+      };
+    }
+
+    function drawCharts() {
+      drawBar(document.getElementById("barChart"), getRiskFactorStats().slice(0, 12));
+    }
+
+    function getRiskFactorStats() {
+      if (serverStats.riskFactorStats?.length) return serverStats.riskFactorStats;
+      const counts = new Map();
+      cases.flatMap(item => item.factors || []).forEach(factor => {
+        const name = factor.name || "未命名風險因子";
+        const existing = counts.get(name) || {
+          name,
+          count: 0,
+          category: factor.riskCategory || inferRiskCategory(name),
+          causalLevels: []
+        };
+        existing.count += 1;
+        if (factor.causalLevel && !existing.causalLevels.includes(factor.causalLevel)) {
+          existing.causalLevels.push(factor.causalLevel);
+        }
+        counts.set(name, existing);
+      });
+      return [...counts.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "zh-Hant"));
+    }
+
+    function renderRiskFactorStatsTable() {
+      const rows = getRiskFactorStats();
+      const table = document.getElementById("riskFactorStatsTable");
+      if (!rows.length) {
+        table.innerHTML = `<tr><td colspan="5">尚無風險因子統計資料。</td></tr>`;
+        return;
+      }
+      table.innerHTML = rows.map((item, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${factorChip(item.name, item.category)}</td>
+          <td><strong>${item.count}</strong></td>
+          <td>${categoryBadge(item.category || inferRiskCategory(item.name))}</td>
+          <td>${escapeHtml((item.causalLevels || []).join("、") || "-")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function drawBar(canvas, data) {
+      const { ctx, width, height } = prepareCanvas(canvas, 420);
+      ctx.clearRect(0, 0, width, height);
+      if (!data.length) {
+        ctx.fillStyle = "#64707d";
+        ctx.font = "16px Microsoft JhengHei, sans-serif";
+        ctx.fillText("尚無風險因子統計資料", 28, 58);
+        return;
+      }
+      const max = Math.max(1, ...data.map(item => Array.isArray(item) ? item[1] : item.count));
+      const barX = Math.max(210, Math.min(280, Math.round(width * 0.32)));
+      const countX = width - 52;
+      const trackWidth = Math.max(260, countX - barX - 28);
+      const labelWidth = barX - 46;
+      ctx.fillStyle = "#64707d";
+      ctx.font = "15px Microsoft JhengHei, sans-serif";
+      data.forEach((item, index) => {
+        const name = Array.isArray(item) ? item[0] : item.name;
+        const count = Array.isArray(item) ? item[1] : item.count;
+        const color = Array.isArray(item) ? item[2] : "#2563eb";
+        const y = 38 + index * 30;
+        const barWidth = Math.round((count / max) * trackWidth);
+        ctx.fillStyle = "#edf2f5";
+        roundRect(ctx, barX, y, trackWidth, 20, 6, true);
+        ctx.fillStyle = color;
+        roundRect(ctx, barX, y, barWidth, 20, 6, true);
+        ctx.fillStyle = "#1f2933";
+        ctx.fillText(fitCanvasText(ctx, name, labelWidth), 28, y + 15);
+        ctx.fillText(String(count), countX, y + 15);
+      });
+    }
+
+    function prepareCanvas(canvas, logicalHeight) {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(720, Math.round(rect.width || canvas.clientWidth || 720));
+      const height = logicalHeight;
+      canvas.style.height = `${height}px`;
+      const pixelWidth = Math.round(width * dpr);
+      const pixelHeight = Math.round(height * dpr);
+      if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+      }
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return { ctx, width, height };
+    }
+
+    function fitCanvasText(ctx, text, maxWidth) {
+      const value = String(text || "");
+      if (ctx.measureText(value).width <= maxWidth) return value;
+      let output = value;
+      while (output.length > 1 && ctx.measureText(`${output}...`).width > maxWidth) {
+        output = output.slice(0, -1);
+      }
+      return `${output}...`;
+    }
+
+    function renderPaths() {
+      const note = document.getElementById("pathNote");
+      const common = document.getElementById("commonPaths");
+      note.textContent = `目前 ${cases.length} 筆案例；每筆案例完成分析後立即更新因果路徑。`;
+
+      const paths = getCommonPaths();
+      renderPathSvg(paths);
+      if (paths.length === 0) {
+        common.className = "empty";
+        common.textContent = "累積案例後將顯示常見因果路徑，例如：教育訓練不足 → 未使用安全帶 → 墜落事故。";
+        return;
+      }
+      common.className = "";
+      common.innerHTML = paths.map(path => `
+        <p><span class="tag path">${path.count} 次</span> ${path.nodes.map(pathNodeHtml).join(" → ")}</p>
+      `).join("");
+    }
+
+    function getCommonPaths() {
+      const source = cases.length >= 10 ? cases : seedCases.concat(cases).slice(0, 10);
+      const map = new Map();
+      source.forEach(item => {
+        const nodes = [item.potential[0], item.indirect[0], item.direct[0], "墜落事故"];
+        const key = nodes.join("|");
+        map.set(key, { nodes, count: (map.get(key)?.count || 0) + 1 });
+      });
+      return [...map.values()].sort((a, b) => b.count - a.count).slice(0, 3);
+    }
+
+    function renderPathSvg(paths) {
+      const svg = document.getElementById("pathSvg");
+      const base = paths[0]?.nodes || ["教育訓練不足", "未使用安全帶", "墜落事故"];
+      const nodes = base.length === 4 ? base : [base[0], base[1], base[2], "墜落事故"];
+      const positions = [
+        [90, 140], [310, 80], [540, 140], [760, 140]
+      ];
+      svg.innerHTML = `
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"></path>
+          </marker>
+        </defs>
+        <path d="M170 140 C220 140 230 80 270 80" stroke="#2563eb" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+        <path d="M390 80 C450 80 470 140 500 140" stroke="#2563eb" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+        <path d="M620 140 C670 140 690 140 720 140" stroke="#2563eb" stroke-width="3" fill="none" marker-end="url(#arrow)"></path>
+        ${nodes.map((text, index) => svgNode(text, positions[index][0], positions[index][1], index)).join("")}
+      `;
+    }
+
+    function svgNode(text, x, y, index) {
+      const isEvent = /事故|墜落|災害/.test(text);
+      const fill = isEvent ? "#dbe4ea" : categoryColor(inferRiskCategory(text));
+      return `
+        <g>
+          <rect x="${x - 72}" y="${y - 28}" width="144" height="56" rx="8" fill="${fill}" stroke="#8da0ae"></rect>
+          <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="15" font-family="Microsoft JhengHei, sans-serif" fill="#1f2933">${escapeHtml(text)}</text>
+        </g>
+      `;
+    }
+
+    function pathNodeHtml(text) {
+      if (/事故|墜落|災害/.test(text)) return `<span class="tag path">${escapeHtml(text)}</span>`;
+      return factorChip(text);
+    }
+
+    function renderPaths() {
+      const note = document.getElementById("pathNote");
+      const common = document.getElementById("commonPaths");
+      const graph = causalGraph || { nodes: [], edges: [] };
+      const nodes = graph.nodes || [];
+      const edges = graph.edges || [];
+      note.textContent = `目前 ${graph.total_cases || serverStats.total || cases.length} 筆案例；每筆案例完成分析後立即更新。最後更新：${graph.updated_at || "-"}`;
+
+      renderPathSvg(graph);
+      if (edges.length === 0) {
+        common.className = "empty";
+        common.textContent = nodes.length
+          ? "目前已有風險節點，但 AI 尚未提供明確前後因果關係，因此不建立邊線。"
+          : "尚無可顯示的因果路徑。請先上傳並完成至少一筆案例分析。";
+        return;
+      }
+      common.className = "";
+      common.innerHTML = edges.slice(0, 8).map(edge => `
+        <p>
+          <span class="tag path">${edge.weight} 例</span>
+          ${pathNodeHtml(edge.source)} → ${pathNodeHtml(edge.target)}
+          <span class="tag">${edge.confidence === "uncertain" ? "方向待確認" : "高信心"}</span>
+        </p>
+      `).join("");
+    }
+
+    function renderPathSvg(graph) {
+      const svg = document.getElementById("pathSvg");
+      const edges = (graph.edges || []).slice(0, 10);
+      const nodeNames = [...new Set(edges.flatMap(edge => [edge.source, edge.target]))];
+      if (nodeNames.length === 0) {
+        nodeNames.push(...(graph.nodes || []).slice(0, 6).map(node => node.id || node.label));
+      }
+      if (nodeNames.length === 0) {
+        svg.innerHTML = `<text x="450" y="155" text-anchor="middle" font-size="16" font-family="Microsoft JhengHei, sans-serif" fill="#64707d">尚無因果路徑資料</text>`;
+        return;
+      }
+
+      const positions = layoutGraphNodes(nodeNames);
+      svg.innerHTML = `
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"></path>
+          </marker>
+        </defs>
+        ${edges.map(edge => svgEdge(edge, positions)).join("")}
+        ${nodeNames.map((text, index) => svgNode(text, positions.get(text).x, positions.get(text).y, index)).join("")}
+      `;
+    }
+
+    function layoutGraphNodes(nodeNames) {
+      const positions = new Map();
+      const columns = Math.min(4, Math.max(1, nodeNames.length));
+      nodeNames.forEach((name, index) => {
+        const col = index % columns;
+        const row = Math.floor(index / columns);
+        positions.set(name, {
+          x: 110 + col * 220,
+          y: 95 + row * 105
+        });
+      });
+      return positions;
+    }
+
+    function svgEdge(edge, positions) {
+      const source = positions.get(edge.source);
+      const target = positions.get(edge.target);
+      if (!source || !target) return "";
+      const width = Math.min(7, 2 + Number(edge.weight || 1));
+      const midX = (source.x + target.x) / 2;
+      const d = `M${source.x + 72} ${source.y} C${midX} ${source.y} ${midX} ${target.y} ${target.x - 72} ${target.y}`;
+      return `<path d="${d}" stroke="#2563eb" stroke-width="${width}" fill="none" marker-end="url(#arrow)"></path>`;
+    }
+
+    function pathNodeHtml(text) {
+      if (/事故|墜落|跌落|傷害|死亡|災害/.test(String(text || ""))) return `<span class="tag path">${escapeHtml(text)}</span>`;
+      return factorChip(text);
+    }
+
+    function renderPaths() {
+      const note = document.getElementById("pathNote");
+      const common = document.getElementById("commonPaths");
+      const graph = causalGraph || { nodes: [], edges: [] };
+      const display = buildDisplayGraph(graph);
+      note.textContent = `目前 ${graph.total_cases || serverStats.total || cases.length} 筆案例；因果路徑已收斂至墜落事故。最後更新：${graph.updated_at || "-"}`;
+
+      renderPathSvg(display);
+      if (display.edges.length === 0) {
+        common.className = "empty";
+        common.textContent = "尚無可收斂至墜落事故的因果路徑。請先上傳並完成案例分析，或使用重新建構功能更新圖。";
+        return;
+      }
+      common.className = "";
+      common.innerHTML = display.edges.slice(0, 8).map(edge => `
+        <p>
+          <span class="tag path">${edge.weight} 例</span>
+          ${pathNodeHtml(edge.source)} → ${pathNodeHtml(edge.target)}
+          <span class="tag">${edge.confidence === "uncertain" ? "方向待確認" : "高信心"}</span>
+        </p>
+      `).join("");
+    }
+
+    function buildDisplayGraph(graph) {
+      const nodeMap = new Map((graph.nodes || []).map(node => [node.id || node.label, node]));
+      const allEdges = (graph.edges || [])
+        .filter(edge => edge.source && edge.target)
+        .filter(edge => !isFallAccident(edge.source));
+      const sink = "墜落事故";
+      if (!nodeMap.has(sink)) {
+        nodeMap.set(sink, { id: sink, label: sink, category: "事故事件", causal_level: "event", frequency: 0 });
+      }
+
+      const normalizedEdges = allEdges.map(edge => ({
+        ...edge,
+        target: isFallAccident(edge.target) ? sink : edge.target
+      }));
+      const reverse = new Map();
+      normalizedEdges.forEach(edge => {
+        if (!reverse.has(edge.target)) reverse.set(edge.target, []);
+        reverse.get(edge.target).push(edge);
+      });
+
+      const keepNodes = new Set([sink]);
+      const keepEdges = [];
+      const queue = [sink];
+      while (queue.length && keepEdges.length < 14) {
+        const target = queue.shift();
+        const incoming = (reverse.get(target) || [])
+          .sort((a, b) => Number(b.weight || 1) - Number(a.weight || 1))
+          .slice(0, target === sink ? 5 : 3);
+        incoming.forEach(edge => {
+          const key = `${edge.source}->${edge.target}`;
+          if (keepEdges.some(item => `${item.source}->${item.target}` === key)) return;
+          keepEdges.push(edge);
+          if (!keepNodes.has(edge.source)) {
+            keepNodes.add(edge.source);
+            queue.push(edge.source);
+          }
+          keepNodes.add(edge.target);
+        });
+      }
+
+      const selectedNodes = [...keepNodes].map(id => nodeMap.get(id) || { id, label: id, category: inferNodeCategory(id), frequency: 0 });
+      return { nodes: selectedNodes, edges: keepEdges };
+    }
+
+    function renderPathSvg(display) {
+      const svg = document.getElementById("pathSvg");
+      const nodes = display.nodes || [];
+      const edges = display.edges || [];
+      if (!nodes.length) {
+        svg.setAttribute("viewBox", "0 0 900 620");
+        svg.innerHTML = `<text x="450" y="250" text-anchor="middle" font-size="16" font-family="Microsoft JhengHei, sans-serif" fill="#64707d">尚無因果路徑資料</text>`;
+        return;
+      }
+
+      const positions = layoutGraphNodes(nodes, edges);
+      svg.setAttribute("viewBox", `0 0 900 ${positions.height}`);
+      svg.innerHTML = `
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"></path>
+          </marker>
+        </defs>
+        ${edges.map(edge => svgEdge(edge, positions)).join("")}
+        ${nodes.map((node, index) => svgNode(node, positions.get(node.id || node.label), index)).join("")}
+      `;
+    }
+
+    function layoutGraphNodes(nodes, edges) {
+      const ids = nodes.map(node => node.id || node.label);
+      const incoming = new Map();
+      ids.forEach(id => incoming.set(id, []));
+      edges.forEach(edge => {
+        if (!incoming.has(edge.target)) incoming.set(edge.target, []);
+        incoming.get(edge.target).push(edge.source);
+      });
+
+      const sink = ids.find(isFallAccident) || "墜落事故";
+      const depth = new Map([[sink, 3]]);
+      const queue = [sink];
+      while (queue.length) {
+        const target = queue.shift();
+        const nextDepth = Math.max(0, (depth.get(target) || 3) - 1);
+        (incoming.get(target) || []).forEach(source => {
+          if (!depth.has(source) || depth.get(source) > nextDepth) {
+            depth.set(source, nextDepth);
+            queue.push(source);
+          }
+        });
+      }
+      ids.forEach(id => {
+        if (!depth.has(id)) depth.set(id, isFallAccident(id) ? 3 : 0);
+      });
+
+      const groups = [0, 1, 2, 3].map(level => ids.filter(id => depth.get(id) === level));
+      const maxGroupSize = Math.max(1, ...groups.map(group => group.length));
+      const nodeGap = 118;
+      const height = Math.max(620, 150 + (maxGroupSize - 1) * nodeGap);
+      const xByLevel = [120, 345, 570, 795];
+      const positions = new Map();
+      groups.forEach((group, level) => {
+        const start = height / 2 - ((group.length - 1) * nodeGap) / 2;
+        group.forEach((id, index) => positions.set(id, { x: xByLevel[level], y: start + index * nodeGap }));
+      });
+      positions.height = height;
+      return positions;
+    }
+
+    function svgEdge(edge, positions) {
+      const source = positions.get(edge.source);
+      const target = positions.get(edge.target);
+      if (!source || !target) return "";
+      const width = Math.min(6, 2 + Number(edge.weight || 1));
+      const d = `M${source.x + 78} ${source.y} C${source.x + 145} ${source.y} ${target.x - 145} ${target.y} ${target.x - 78} ${target.y}`;
+      return `<path d="${d}" stroke="#2563eb" stroke-width="${width}" fill="none" marker-end="url(#arrow)" opacity="0.82"></path>`;
+    }
+
+    function svgNode(node, pos, index) {
+      const text = node.label || node.id || "";
+      const category = normalizeNodeCategory(node.category || inferNodeCategory(text));
+      const isEvent = isFallAccident(text);
+      const fill = isEvent ? "#dbe4ea" : categoryColor(category);
+      const titleLines = wrapSvgText(text, 10, 3);
+      const titleStart = titleLines.length === 1 ? -4 : -16;
+      return `
+        <g>
+          <rect x="${pos.x - 78}" y="${pos.y - 42}" width="156" height="84" rx="8" fill="${fill}" stroke="#8da0ae"></rect>
+          <rect x="${pos.x - 66}" y="${pos.y + 18}" width="132" height="18" rx="6" fill="rgba(255,255,255,.65)" stroke="#cbd5dc"></rect>
+          <text x="${pos.x}" y="${pos.y + titleStart}" text-anchor="middle" font-size="13" font-family="Microsoft JhengHei, sans-serif" fill="#1f2933">
+            ${titleLines.map((line, lineIndex) => `<tspan x="${pos.x}" dy="${lineIndex === 0 ? 0 : 17}">${escapeHtml(line)}</tspan>`).join("")}
+          </text>
+          <text x="${pos.x}" y="${pos.y + 32}" text-anchor="middle" font-size="11" font-family="Microsoft JhengHei, sans-serif" fill="#334155">${escapeHtml(category)}</text>
+        </g>
+      `;
+    }
+
+    function wrapSvgText(text, maxChars, maxLines) {
+      const chars = [...String(text || "")];
+      const lines = [];
+      for (let i = 0; i < chars.length && lines.length < maxLines; i += maxChars) {
+        lines.push(chars.slice(i, i + maxChars).join(""));
+      }
+      if (chars.length > maxChars * maxLines) {
+        lines[lines.length - 1] = lines[lines.length - 1].slice(0, Math.max(1, maxChars - 1)) + "…";
+      }
+      return lines.length ? lines : [""];
+    }
+
+    function pathNodeHtml(text) {
+      if (isFallAccident(text)) return `<span class="tag path">${escapeHtml("墜落事故")}</span>`;
+      return factorChip(text);
+    }
+
+    function isFallAccident(text) {
+      return /墜落事故|墜落|跌落|事故|災害|傷害|死亡/.test(String(text || ""));
+    }
+
+    function normalizeNodeCategory(category) {
+      const text = String(category || "");
+      if (/人為/.test(text)) return "人為因素";
+      if (/設備/.test(text)) return "設備因素";
+      if (/管理/.test(text)) return "管理因素";
+      if (/環境/.test(text)) return "環境因素";
+      if (/流程|作業/.test(text)) return "作業流程因素";
+      if (/事故|事件/.test(text)) return "事故事件";
+      return text || "未分類";
+    }
+
+    function inferNodeCategory(text) {
+      if (isFallAccident(text)) return "事故事件";
+      return inferRiskCategory(text);
+    }
+
+    function overlap(a, b) {
+      const setA = new Set([...a.direct, ...a.indirect, ...a.potential]);
+      return [...b.direct, ...b.indirect, ...b.potential].filter(item => setA.has(item)).length;
+    }
+
+    function riskLevel(score) {
+      if (score <= 2) return "極低風險";
+      if (score <= 4) return "低度風險";
+      if (score <= 9) return "中度風險";
+      if (score <= 16) return "高度風險";
+      return "極高風險";
+    }
+
+    function riskClass(score) {
+      if (score <= 2) return "risk-very-low";
+      if (score <= 4) return "risk-low";
+      if (score <= 9) return "risk-medium";
+      if (score <= 16) return "risk-high";
+      return "risk-critical";
+    }
+
+    function formatTime(date) {
+      return new Intl.DateTimeFormat("zh-TW", {
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit"
+      }).format(date);
+    }
+
+    function formatDate(date) {
+      return new Intl.DateTimeFormat("zh-TW", {
+        year: "numeric", month: "2-digit", day: "2-digit"
+      }).format(date);
+    }
+
+    function roundRect(ctx, x, y, w, h, r, fill) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      if (fill) ctx.fill();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
+</body>
+</html>

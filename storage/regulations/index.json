@@ -1,0 +1,36 @@
+{
+  "documents": [
+    {
+      "id": "28e379c4-2e2d-4077-9199-9735f88b8ea5",
+      "name": "職業安全衛生法.txt",
+      "category": "職業安全衛生法",
+      "project": "A工地",
+      "path": "storage/regulations/職業安全衛生法.txt",
+      "created_at": "2026-06-14"
+    },
+    {
+      "id": "f5cdae50-2d73-4445-b22a-edf641ea1f58",
+      "name": "營造安全衛生設施標準.txt",
+      "category": "營造安全衛生設施標準",
+      "project": "A工地",
+      "path": "storage/regulations/營造安全衛生設施標準.txt",
+      "created_at": "2026-06-14"
+    },
+    {
+      "id": "6f205d03-71ac-4ae1-8630-47f937d36d31",
+      "name": "職業安全衛生設施規則.txt",
+      "category": "職業安全衛生設施規則",
+      "project": "A工地",
+      "path": "storage/regulations/職業安全衛生設施規則.txt",
+      "created_at": "2026-06-14"
+    },
+    {
+      "id": "d3a8673c-93ef-4f20-b820-7a2f8a37c1fb",
+      "name": "職業安全衛生法.txt",
+      "category": "職業安全衛生法",
+      "project": "A工地",
+      "path": "storage/regulations/職業安全衛生法.txt",
+      "created_at": "2026-06-15"
+    }
+  ]
+}
