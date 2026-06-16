@@ -3105,136 +3105,20 @@ fixedSummary.regulatoryCompliance 必須優先引用RAG法規庫，顯示法規�
 
     function renderPathSvg(graph) {
       const svg = document.getElementById("pathSvg");
-      const edges = (graph.edges || []).slice(0, 10);
+      const edges = (graph.edges || []).filter(edge => edge.source && edge.target).slice(0, 14);
+      const nodeMap = new Map((graph.nodes || []).map(node => [node.id || node.label, node]));
       const nodeNames = [...new Set(edges.flatMap(edge => [edge.source, edge.target]))];
       if (nodeNames.length === 0) {
         nodeNames.push(...(graph.nodes || []).slice(0, 6).map(node => node.id || node.label));
       }
       if (nodeNames.length === 0) {
-        svg.innerHTML = `<text x="450" y="155" text-anchor="middle" font-size="16" font-family="Microsoft JhengHei, sans-serif" fill="#64707d">尚無因果路徑資料</text>`;
-        return;
-      }
-
-      const positions = layoutGraphNodes(nodeNames);
-      svg.innerHTML = `
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"></path>
-          </marker>
-        </defs>
-        ${edges.map(edge => svgEdge(edge, positions)).join("")}
-        ${nodeNames.map((text, index) => svgNode(text, positions.get(text).x, positions.get(text).y, index)).join("")}
-      `;
-    }
-
-    function layoutGraphNodes(nodeNames) {
-      const positions = new Map();
-      const columns = Math.min(4, Math.max(1, nodeNames.length));
-      nodeNames.forEach((name, index) => {
-        const col = index % columns;
-        const row = Math.floor(index / columns);
-        positions.set(name, {
-          x: 110 + col * 220,
-          y: 95 + row * 105
-        });
-      });
-      return positions;
-    }
-
-    function svgEdge(edge, positions) {
-      const source = positions.get(edge.source);
-      const target = positions.get(edge.target);
-      if (!source || !target) return "";
-      const width = Math.min(7, 2 + Number(edge.weight || 1));
-      const midX = (source.x + target.x) / 2;
-      const d = `M${source.x + 72} ${source.y} C${midX} ${source.y} ${midX} ${target.y} ${target.x - 72} ${target.y}`;
-      return `<path d="${d}" stroke="#2563eb" stroke-width="${width}" fill="none" marker-end="url(#arrow)"></path>`;
-    }
-
-    function pathNodeHtml(text) {
-      if (/事故|墜落|跌落|傷害|死亡|災害/.test(String(text || ""))) return `<span class="tag path">${escapeHtml(text)}</span>`;
-      return factorChip(text);
-    }
-
-    function renderPaths() {
-      const note = document.getElementById("pathNote");
-      const common = document.getElementById("commonPaths");
-      const graph = causalGraph || { nodes: [], edges: [] };
-      const display = buildDisplayGraph(graph);
-      note.textContent = `目前 ${graph.total_cases || serverStats.total || cases.length} 筆案例；因果路徑已收斂至墜落事故。最後更新：${graph.updated_at || "-"}`;
-
-      renderPathSvg(display);
-      if (display.edges.length === 0) {
-        common.className = "empty";
-        common.textContent = "尚無可收斂至墜落事故的因果路徑。請先上傳並完成案例分析，或使用重新建構功能更新圖。";
-        return;
-      }
-      common.className = "";
-      common.innerHTML = display.edges.slice(0, 8).map(edge => `
-        <p>
-          <span class="tag path">${edge.weight} 例</span>
-          ${pathNodeHtml(edge.source)} → ${pathNodeHtml(edge.target)}
-          <span class="tag">${edge.confidence === "uncertain" ? "方向待確認" : "高信心"}</span>
-        </p>
-      `).join("");
-    }
-
-    function buildDisplayGraph(graph) {
-      const nodeMap = new Map((graph.nodes || []).map(node => [node.id || node.label, node]));
-      const allEdges = (graph.edges || [])
-        .filter(edge => edge.source && edge.target)
-        .filter(edge => !isFallAccident(edge.source));
-      const sink = "墜落事故";
-      if (!nodeMap.has(sink)) {
-        nodeMap.set(sink, { id: sink, label: sink, category: "事故事件", causal_level: "event", frequency: 0 });
-      }
-
-      const normalizedEdges = allEdges.map(edge => ({
-        ...edge,
-        target: isFallAccident(edge.target) ? sink : edge.target
-      }));
-      const reverse = new Map();
-      normalizedEdges.forEach(edge => {
-        if (!reverse.has(edge.target)) reverse.set(edge.target, []);
-        reverse.get(edge.target).push(edge);
-      });
-
-      const keepNodes = new Set([sink]);
-      const keepEdges = [];
-      const queue = [sink];
-      while (queue.length && keepEdges.length < 14) {
-        const target = queue.shift();
-        const incoming = (reverse.get(target) || [])
-          .sort((a, b) => Number(b.weight || 1) - Number(a.weight || 1))
-          .slice(0, target === sink ? 5 : 3);
-        incoming.forEach(edge => {
-          const key = `${edge.source}->${edge.target}`;
-          if (keepEdges.some(item => `${item.source}->${item.target}` === key)) return;
-          keepEdges.push(edge);
-          if (!keepNodes.has(edge.source)) {
-            keepNodes.add(edge.source);
-            queue.push(edge.source);
-          }
-          keepNodes.add(edge.target);
-        });
-      }
-
-      const selectedNodes = [...keepNodes].map(id => nodeMap.get(id) || { id, label: id, category: inferNodeCategory(id), frequency: 0 });
-      return { nodes: selectedNodes, edges: keepEdges };
-    }
-
-    function renderPathSvg(display) {
-      const svg = document.getElementById("pathSvg");
-      const nodes = display.nodes || [];
-      const edges = display.edges || [];
-      if (!nodes.length) {
         svg.setAttribute("viewBox", "0 0 900 620");
         svg.innerHTML = `<text x="450" y="250" text-anchor="middle" font-size="16" font-family="Microsoft JhengHei, sans-serif" fill="#64707d">尚無因果路徑資料</text>`;
         return;
       }
 
-      const positions = layoutGraphNodes(nodes, edges);
-      svg.setAttribute("viewBox", `0 0 900 ${positions.height}`);
+      const positions = layoutGraphNodes(nodeNames, edges);
+      svg.setAttribute("viewBox", `0 0 ${positions.width} ${positions.height}`);
       svg.innerHTML = `
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
@@ -3242,46 +3126,60 @@ fixedSummary.regulatoryCompliance 必須優先引用RAG法規庫，顯示法規�
           </marker>
         </defs>
         ${edges.map(edge => svgEdge(edge, positions)).join("")}
-        ${nodes.map((node, index) => svgNode(node, positions.get(node.id || node.label), index)).join("")}
+        ${nodeNames.map((text, index) => svgNode(nodeMap.get(text) || { id: text, label: text }, positions.get(text), index)).join("")}
       `;
     }
 
-    function layoutGraphNodes(nodes, edges) {
-      const ids = nodes.map(node => node.id || node.label);
-      const incoming = new Map();
-      ids.forEach(id => incoming.set(id, []));
+    function layoutGraphNodes(nodeNames, edges) {
+      const idSet = new Set(nodeNames);
+      const incoming = new Map(nodeNames.map(id => [id, []]));
       edges.forEach(edge => {
-        if (!incoming.has(edge.target)) incoming.set(edge.target, []);
+        if (!idSet.has(edge.source) || !idSet.has(edge.target)) return;
         incoming.get(edge.target).push(edge.source);
       });
 
-      const sink = ids.find(isFallAccident) || "墜落事故";
-      const depth = new Map([[sink, 3]]);
+      const sink = nodeNames.find(isFallAccident) || edges.find(edge => isFallAccident(edge.target))?.target || nodeNames.at(-1);
+      const distanceToSink = new Map([[sink, 0]]);
       const queue = [sink];
       while (queue.length) {
         const target = queue.shift();
-        const nextDepth = Math.max(0, (depth.get(target) || 3) - 1);
+        const nextDistance = (distanceToSink.get(target) || 0) + 1;
         (incoming.get(target) || []).forEach(source => {
-          if (!depth.has(source) || depth.get(source) > nextDepth) {
-            depth.set(source, nextDepth);
+          if (!distanceToSink.has(source) || distanceToSink.get(source) < nextDistance) {
+            distanceToSink.set(source, nextDistance);
             queue.push(source);
           }
         });
       }
-      ids.forEach(id => {
-        if (!depth.has(id)) depth.set(id, isFallAccident(id) ? 3 : 0);
+
+      const maxDistance = Math.max(1, ...[...distanceToSink.values()]);
+      const level = new Map();
+      nodeNames.forEach(id => {
+        const distance = distanceToSink.has(id) ? distanceToSink.get(id) : maxDistance;
+        level.set(id, isFallAccident(id) ? maxDistance : Math.max(0, maxDistance - distance));
+      });
+      edges.forEach(edge => {
+        if (!level.has(edge.source) || !level.has(edge.target)) return;
+        if (level.get(edge.source) >= level.get(edge.target)) {
+          level.set(edge.target, level.get(edge.source) + 1);
+        }
       });
 
-      const groups = [0, 1, 2, 3].map(level => ids.filter(id => depth.get(id) === level));
-      const maxGroupSize = Math.max(1, ...groups.map(group => group.length));
+      const maxLevel = Math.max(1, ...[...level.values()]);
+      const groups = Array.from({ length: maxLevel + 1 }, (_, groupLevel) =>
+        nodeNames.filter(id => level.get(id) === groupLevel).sort((a, b) => String(a).localeCompare(String(b), "zh-Hant"))
+      );
       const nodeGap = 118;
+      const maxGroupSize = Math.max(1, ...groups.map(group => group.length));
       const height = Math.max(620, 150 + (maxGroupSize - 1) * nodeGap);
-      const xByLevel = [120, 345, 570, 795];
+      const columnGap = 220;
+      const marginX = 110;
       const positions = new Map();
-      groups.forEach((group, level) => {
+      groups.forEach((group, groupLevel) => {
         const start = height / 2 - ((group.length - 1) * nodeGap) / 2;
-        group.forEach((id, index) => positions.set(id, { x: xByLevel[level], y: start + index * nodeGap }));
+        group.forEach((id, index) => positions.set(id, { x: marginX + groupLevel * columnGap, y: start + index * nodeGap }));
       });
+      positions.width = Math.max(900, marginX * 2 + maxLevel * columnGap);
       positions.height = height;
       return positions;
     }
@@ -3289,13 +3187,17 @@ fixedSummary.regulatoryCompliance 必須優先引用RAG法規庫，顯示法規�
     function svgEdge(edge, positions) {
       const source = positions.get(edge.source);
       const target = positions.get(edge.target);
-      if (!source || !target) return "";
+      if (!source || !target || target.x <= source.x) return "";
       const width = Math.min(6, 2 + Number(edge.weight || 1));
-      const d = `M${source.x + 78} ${source.y} C${source.x + 145} ${source.y} ${target.x - 145} ${target.y} ${target.x - 78} ${target.y}`;
+      const startX = source.x + 78;
+      const endX = target.x - 78;
+      const control = Math.max(70, (endX - startX) * 0.45);
+      const d = `M${startX} ${source.y} C${startX + control} ${source.y} ${endX - control} ${target.y} ${endX} ${target.y}`;
       return `<path d="${d}" stroke="#2563eb" stroke-width="${width}" fill="none" marker-end="url(#arrow)" opacity="0.82"></path>`;
     }
 
     function svgNode(node, pos, index) {
+      if (!pos) return "";
       const text = node.label || node.id || "";
       const category = normalizeNodeCategory(node.category || inferNodeCategory(text));
       const isEvent = isFallAccident(text);
