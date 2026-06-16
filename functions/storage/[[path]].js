@@ -14,8 +14,24 @@ export async function onRequestGet(context) {
     }
   }
 
+  if (env.MS_DATA) {
+    const stored = await env.MS_DATA.get(`media:${key}`, "json");
+    if (stored?.body) {
+      return new Response(base64ToArrayBuffer(stored.body), {
+        headers: { "Content-Type": stored.contentType || contentTypeFromName(key) }
+      });
+    }
+  }
+
   if (env.ASSETS) return env.ASSETS.fetch(request);
   return new Response("Not found", { status: 404 });
+}
+
+function base64ToArrayBuffer(base64) {
+  const binary = atob(String(base64).replace(/^data:[^,]+,/, ""));
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCodeAt(index);
+  return bytes;
 }
 
 function contentTypeFromName(name) {

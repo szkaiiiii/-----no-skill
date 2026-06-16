@@ -230,10 +230,18 @@ async function putJson(kv, key, value) {
 }
 
 async function putMedia(context, path, base64, contentType) {
-  if (!context.env.MS_MEDIA) throw new Error("Cloudflare R2 binding MS_MEDIA is not configured.");
-  const bytes = base64ToArrayBuffer(base64);
-  await context.env.MS_MEDIA.put(stripStorage(path), bytes, {
-    httpMetadata: { contentType: contentType || "application/octet-stream" }
+  if (context.env.MS_MEDIA) {
+    const bytes = base64ToArrayBuffer(base64);
+    await context.env.MS_MEDIA.put(stripStorage(path), bytes, {
+      httpMetadata: { contentType: contentType || "application/octet-stream" }
+    });
+    return;
+  }
+  if (!context.env.MS_DATA) throw new Error("Cloudflare KV binding MS_DATA is not configured.");
+  await putJson(context.env.MS_DATA, `media:${stripStorage(path)}`, {
+    body: String(base64).replace(/^data:[^,]+,/, ""),
+    contentType: contentType || "application/octet-stream",
+    updatedAt: new Date().toISOString()
   });
 }
 
